@@ -76,6 +76,7 @@ AC_CONFIG_FILES([
     contrib/DEBIAN/Makefile
     contrib/DEBIAN/control
     tests/Makefile
+    tests/fvt/Makefile
 ],[
     chmod +x po/gen-pot
 ])
