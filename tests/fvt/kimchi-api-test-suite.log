@@ -1,0 +1,306 @@
+12-04-2015 03:50:34 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 03:50:34 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 03:50:34 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 03:50:34 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 03:50:34 PM INFO:                                     --> TestStorage.test_F001_activate_incorrect_storage_pool() 
+12-04-2015 03:50:34 PM INFO:                                     <-- TestStorage.test_F001_activate_incorrect_storage_pool() 
+12-04-2015 05:10:29 PM ERROR:                                     TestBase.setUpClass(): Ending session as API error happened
+12-04-2015 05:59:28 PM ERROR:                                     TestBase.setUpClass(): Ending session as API error happened
+12-04-2015 06:00:35 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:00:35 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:00:35 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:00:35 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:00:35 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:00:35 PM DEBUG:                                     Retrieve a summarized list of all defined Repositories 
+12-04-2015 06:00:35 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:00:36 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:00:36 PM DEBUG:                                     Repositories found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:00:36 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:00:36 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:15:56 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:15:56 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:15:56 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:15:56 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:15:56 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:15:56 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:15:56 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:15:56 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:15:56 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:15:56 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:15:56 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:15:56 PM DEBUG:                                     Retrieve detailed information of an interface
+12-04-2015 06:15:56 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-04-2015 06:15:56 PM DEBUG:                                     Repositories found : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : IPV4_INFO
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : IPV6_INFO
+12-04-2015 06:15:56 PM DEBUG:                                     Cfginterfaces : BASIC_INFO
+12-04-2015 06:15:56 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:18:42 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:18:42 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:18:42 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:18:42 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:18:42 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:18:42 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:18:42 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:18:42 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:18:42 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:18:42 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:18:42 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:18:42 PM DEBUG:                                     Retrieve detailed information of an interface
+12-04-2015 06:18:42 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-04-2015 06:18:42 PM DEBUG:                                     Repositories found : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:18:42 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:18:42 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:19:49 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:19:49 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:19:49 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:19:49 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:19:49 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:19:49 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:19:49 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:19:49 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:19:49 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:19:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:19:49 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:19:49 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:19:49 PM DEBUG:                                     Retrieve detailed information of an interface
+12-04-2015 06:19:49 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-04-2015 06:19:49 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:19:49 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:23:49 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:23:49 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:23:49 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:23:49 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:23:49 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:23:49 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:23:49 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:23:49 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:23:49 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:23:49 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:23:49 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:23:49 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:23:49 PM DEBUG:                                     Retrieve detailed information of an interface
+12-04-2015 06:23:49 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-04-2015 06:23:49 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:23:49 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-04-2015 06:24:00 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:24:00 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:24:00 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:24:00 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:24:00 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:24:00 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:24:00 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:24:00 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:24:00 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:00 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:00 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:24:09 PM DEBUG:                                     --> TestBase.setUpClass()
+12-04-2015 06:24:09 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-04-2015 06:24:09 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-04-2015 06:24:09 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-04-2015 06:24:09 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:24:09 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-04-2015 06:24:09 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-04-2015 06:24:09 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 719
+12-04-2015 06:24:09 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'no', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:09 PM DEBUG:                                     Cfginterfaces : {}
+12-04-2015 06:24:09 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-04-2015 06:24:09 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-04-2015 06:24:09 PM DEBUG:                                     Retrieve detailed information of an interface
+12-04-2015 06:24:09 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-04-2015 06:24:09 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-04-2015 06:24:09 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 03:33:05 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 03:33:05 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 03:33:05 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 03:33:05 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 03:33:05 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 03:33:05 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 03:33:05 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 03:33:06 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 720
+12-07-2015 03:33:06 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 03:33:06 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 03:33:06 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 03:33:06 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 03:33:06 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 03:33:06 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-07-2015 03:33:06 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 03:33:06 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:04:07 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:04:07 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:04:07 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:04:07 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:04:07 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:04:07 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:04:07 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:04:07 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 502 172
+12-07-2015 04:04:07 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:04:07 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:04:07 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:04:07 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:04:07 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 502 172
+12-07-2015 04:04:07 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:04:07 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:28:20 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:28:20 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:28:20 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:28:20 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:28:20 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:28:20 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:28:20 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:28:20 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 502 172
+12-07-2015 04:28:20 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:28:20 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:28:20 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:28:20 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:28:20 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 502 172
+12-07-2015 04:28:20 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:28:20 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:30:10 PM ERROR:                                     TestBase.setUpClass(): Ending session as API error happened
+12-07-2015 04:30:50 PM ERROR:                                     TestBase.setUpClass(): Ending session as API error happened
+12-07-2015 04:32:06 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:32:06 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:32:06 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:32:06 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:32:06 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:32:06 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:32:06 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:32:06 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 502 172
+12-07-2015 04:32:06 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:32:06 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:32:06 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:32:06 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:32:06 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 502 172
+12-07-2015 04:32:06 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:32:06 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:37:14 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:37:14 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:37:14 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:37:14 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:37:14 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:37:14 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:37:14 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:37:14 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 502 172
+12-07-2015 04:37:14 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:37:14 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:37:14 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:37:14 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:37:14 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 502 172
+12-07-2015 04:37:14 PM ERROR:                                     Request ended with status 502-0
+12-07-2015 04:37:14 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:38:04 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:38:04 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:38:04 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:38:04 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:38:04 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:38:04 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:38:04 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:38:05 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 720
+12-07-2015 04:38:05 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:05 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:05 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:38:05 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:38:05 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:38:05 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-07-2015 04:38:05 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:38:05 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:38:28 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:38:28 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:38:28 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:38:28 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:38:28 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:38:28 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:38:28 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:38:28 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 720
+12-07-2015 04:38:28 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:28 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:38:28 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:38:28 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:38:28 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:38:28 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-07-2015 04:38:28 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:38:28 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()
+12-07-2015 04:39:37 PM DEBUG:                                     --> TestBase.setUpClass()
+12-07-2015 04:39:37 PM DEBUG:                                     TestBase.setUpClass(): Setting auth to session
+12-07-2015 04:39:37 PM DEBUG:                                     TestBase.setUpClass(): Auth details set to session and base URI created as https://localhost:8001
+12-07-2015 04:39:37 PM DEBUG:                                     <-- TestBase.setUpClass()
+12-07-2015 04:39:37 PM INFO:                                     --> TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:39:37 PM DEBUG:                                     Retrieve a details list of all defined interfaces
+12-07-2015 04:39:37 PM INFO:                                     Starting new HTTPS connection (1): localhost
+12-07-2015 04:39:37 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces HTTP/1.1" 200 720
+12-07-2015 04:39:37 PM DEBUG:                                     Interfaces found : [{u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}, {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}, {}, {}, {}, {}, {}]
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {u'PEERROUTES': u'yes', u'BOOTPROTO': u'dhcp', u'DEFROUTE': u'yes', u'PEERDNS': u'yes', u'IPV4_FAILURE_FATAL': u'no'}, u'IPV6_INFO': {u'IPV6INIT': u'yes', u'IPV6_PEERDNS': u'yes', u'IPV6_DEFROUTE': u'yes', u'IPV6_AUTOCONF': u'yes', u'IPV6_FAILURE_FATAL': u'no', u'IPV6_PEERROUTES': u'yes'}, u'BASIC_INFO': {u'HWADDR': u'00:21:CC:BA:C4:8B', u'ONBOOT': u'yes', u'TYPE': u'Ethernet', u'UUID': u'27a1a84a-64b8-4a8e-a202-75d192baf03e', u'NAME': u'enp0s25'}}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:39:37 PM DEBUG:                                     Cfginterfaces : {}
+12-07-2015 04:39:37 PM INFO:                                     <-- TestCfginterfaces.test_S001_list_allcfginterfaces() 
+12-07-2015 04:39:37 PM INFO:                                     --> TestCfginterfaces.test_S002_display_cfginterface_details() 
+12-07-2015 04:39:37 PM DEBUG:                                     Retrieve detailed information of an interface
+12-07-2015 04:39:38 PM DEBUG:                                     "GET /plugins/ginger/network/cfginterfaces/lo HTTP/1.1" 200 121
+12-07-2015 04:39:38 PM DEBUG:                                     Loopback repository details : {u'IPV4_INFO': {}, u'IPV6_INFO': {}, u'BASIC_INFO': {u'DEVICE': u'lo', u'NAME': u'loopback', u'ONBOOT': u'yes'}}
+12-07-2015 04:39:38 PM INFO:                                     <-- TestCfginterfaces.test_S002_display_cfginterface_details()

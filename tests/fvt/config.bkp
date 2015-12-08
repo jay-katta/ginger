@@ -1,0 +1,7 @@
+[Session]
+user : jkatta
+passwd : jj4e9wig
+host : localhost
+port : 8001
+logfile : kimchi-api-test-suite.log
+loglevel : DEBUG
