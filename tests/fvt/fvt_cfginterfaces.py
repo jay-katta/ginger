@@ -218,7 +218,7 @@ class TestCfginterfaces(TestBase):
         super(TestCfginterfaces, cls).setUpClass()
         cls.logging = cls.session.logging
 
-    def _s001_list_allcfginterfaces(self):
+    def test_s001_list_allcfginterfaces(self):
             """
              List all cfginterface details
             """
@@ -243,7 +243,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s001_list_allcfginterfaces() ')
 
-    def _s002_get_cfginterface_details(self):
+    def test_s002_get_cfginterface_details(self):
             """
              Display cfginterface details
             """
@@ -329,7 +329,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s004_createvlan()')
 
-    def _s005_bond_with_noslaves(self):
+    def test_s005_bond_with_noslaves(self):
             """
             Create an interface of type bond
             """
@@ -349,7 +349,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s005_bond_with_noslaves()')
 
-    def _s006_bond_with_invalid_opt(self):
+    def test_s006_bond_with_invalid_opt(self):
             """
             Create an interface of type bond
             """
@@ -369,7 +369,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s006_bond_with_invalid_opt()')
 
-    def _s007_bond_without_basicinfo(self):
+    def test_s007_bond_without_basicinfo(self):
             """
             Create an interface of type bond
             """
@@ -389,7 +389,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s007_bond_without_basicinfo()')
 
-    def _s008_bond_without_ipv4init(self):
+    def test_s008_bond_without_ipv4init(self):
             """
             Create an interface of type bond
             """
@@ -409,7 +409,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s008_bond_without_ipv4init()')
 
-    def _s009_cfg_without_type(self):
+    def test_s009_cfg_without_type(self):
             """
             Create an interface of type bond
             """
@@ -429,7 +429,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s009_cfg_without_type()')
 
-    def _s010_create_bond_without_info(self):
+    def test_s010_create_bond_without_info(self):
             """
             Create an interface of type bond
             """
@@ -449,7 +449,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s010_create_bond_without_info()')
 
-    def _s011_create_bond_without_device(self):
+    def test_s011_create_bond_without_device(self):
             """
             Create an interface of type bond
             """
@@ -469,7 +469,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s011_create_bond_without_device()')
 
-    def _s012_create_bond_invalid_master(self):
+    def test_s012_create_bond_invalid_master(self):
             """
             Create an interface of type bond
             """
@@ -489,7 +489,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s012_create_bond_invalid_master()')
 
-    def _s013_create_bond_without_master(self):
+    def test_s013_create_bond_without_master(self):
             """
             Create an interface of type bond
             """
@@ -509,7 +509,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s013_create_bond_without_master()')
 
-    def _s014_create_bond_invalid_mode(self):
+    def test_s014_create_bond_invalid_mode(self):
             """
             Create an interface of type bond
             """
@@ -529,7 +529,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s014_create_bond_without_master()')
 
-    def _s015_create_bond_invalid_downdelay(self):
+    def test_s015_create_bond_invalid_downdelay(self):
             """
             Create an interface of type bond
             """
@@ -562,7 +562,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s015_create_bond_invalid_downdelay()')
 
-    def _s016_create_bond_invalid_updelay(self):
+    def test_s016_create_bond_invalid_updelay(self):
             """
             Create an interface of type bond
             """
@@ -595,7 +595,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s016_create_bond_invalid_updelay()')
 
-    def _s017_create_bond_invalid_mimon(self):
+    def test_s017_create_bond_invalid_mimon(self):
             """
             Create an interface of type bond
             """
@@ -629,7 +629,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s017_create_bond_invalid_mimon()')
 
-    def _se018_create_bond_invalid_arp(self):
+    def test_se018_create_bond_invalid_arp(self):
             """
             Create an interface of type bond
             """
@@ -662,7 +662,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_se018_create_bond_invalid_arp()')
 
-    def _se019_create_bond_no_slavekey(self):
+    def test_se019_create_bond_no_slavekey(self):
             """
             Create an interface of type bond
             """
@@ -720,7 +720,7 @@ class TestCfginterfaces(TestBase):
     #             self.logging.info('<-- TestCfginterfaces.'
     #                               'test_s020_create_vlan()')
 
-    def _s021_vlan_without_info(self):
+    def test_s021_vlan_without_info(self):
             """
             Create an interface of type bond
             """
@@ -744,7 +744,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s021_vlan_without_info()')
 
-    def _s022_vlan_without_phydev(self):
+    def test_s022_vlan_without_phydev(self):
             """
             Create an interface of type bond
             """
@@ -770,7 +770,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s022_vlan_without_phydev()')
 
-    def _s023_vlan_without_vlanid(self):
+    def test_s023_vlan_without_vlanid(self):
             """
             Create an interface of type bond
             """
@@ -796,7 +796,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s023_vlan_without_vlanid()')
 
-    def _s024_vlan_invalid_vlanid(self):
+    def test_s024_vlan_invalid_vlanid(self):
             """
             Create an interface of type bond
             """
@@ -823,7 +823,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s024_vlan_invalid_vlanid()')
 
-    def _s025_vlan_invalid_vlankey(self):
+    def test_s025_vlan_invalid_vlankey(self):
             """
             Create an interface of type vlan with invalid vlankey
             """
@@ -851,7 +851,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s025_vlan_invalid_vlankey()')
 
-    def _s026_update_ipv6_autoconf(self):
+    def test_s026_update_ipv6_autoconf(self):
             """
             Update IPV6 information on an interface
             """
@@ -887,7 +887,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s026_update_ipv6_autoconf()')
 
-    def _s027_update_ipv6_dhcp(self):
+    def test_s027_update_ipv6_dhcp(self):
             """
             Update IPV6 information on an interface
             """
@@ -924,7 +924,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s027_update_ipv6_dhcp()')
 
-    def _s028_update_ipv6_manual(self):
+    def test_s028_update_ipv6_manual(self):
             """
             Update IPV6 information on an interface
             """
@@ -961,7 +961,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_S028_update_ipv6_manual()')
 
-    def _s029_update_ipv6_manual_invalidip(self):
+    def test_s029_update_ipv6_manual_invalidip(self):
             """
             Update IPV6 information on an interface
             """
@@ -1003,7 +1003,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s029_update_ipv6_manual_invalidip()')
 
-    def _s030_update_ipv6_manual_validip(self):
+    def test_s030_update_ipv6_manual_validip(self):
             """
             Update IPV6 information on an interface
             """
@@ -1045,7 +1045,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s030_update_ipv6_manual_validip()')
 
-    def _s031_update_ipv6_manual_missingprefix(self):
+    def test_s031_update_ipv6_manual_missingprefix(self):
             """
             Update IPV6 information on an interface
             """
@@ -1078,7 +1078,7 @@ class TestCfginterfaces(TestBase):
                                   'test_s031_update_'
                                   'ipv6_manual_missingprefix()')
 
-    def _s032_update_ipv6_manual_modemissing(self):
+    def test_s032_update_ipv6_manual_modemissing(self):
             """
             Update IPV6 information on an interface
             """
@@ -1111,7 +1111,7 @@ class TestCfginterfaces(TestBase):
                                   'test_s032_update_'
                                   'ipv6_manual_modemissing()')
 
-    def _s033_update_ipv6_default_gateway(self):
+    def test_s033_update_ipv6_default_gateway(self):
             """
             Update IPV6 information on an interface
             """
@@ -1147,7 +1147,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s033_update_ipv6_default_gateway()')
 
-    def _s034_ipv4_routes_option1(self):
+    def test_s034_ipv4_routes_option1(self):
             ifcfg_file = "/etc/sysconfig/network-scripts/ifcfg-S034"
             f = open(ifcfg_file, 'w')
             f.write("DEVICE=S034\n")
@@ -1174,7 +1174,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s034_ipv4_routes_option1()')
 
-    def _s035_ipv4_routes_option2(self):
+    def test_s035_ipv4_routes_option2(self):
             ifcfg_file = "/etc/sysconfig/network-scripts/ifcfg-S035"
             f = open(ifcfg_file, 'w')
             f.write("DEVICE=S035\n")
@@ -1204,7 +1204,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s035_ipv4_routes_option2()')
 
-    def _s036_ipv6_routes_option1(self):
+    def test_s036_ipv6_routes_option1(self):
             ifcfg_file = "/etc/sysconfig/network-scripts/ifcfg-S036"
             f = open(ifcfg_file, 'w')
             f.write("DEVICE=S036\n")
@@ -1232,7 +1232,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s036_ipv6_routes_option1()')
 
-    def _s037_update_ipv4_routes_option1(self):
+    def test_s037_update_ipv4_routes_option1(self):
             ifcfg_file = "/etc/sysconfig/network-scripts/ifcfg-S037"
             f = open(ifcfg_file, 'w')
             f.write("DEVICE=S037\n")
@@ -1268,7 +1268,7 @@ class TestCfginterfaces(TestBase):
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s037_update_ipv4_routes_option1()')
 
-    def _s038_update_ipv6_routes_option1(self):
+    def test_s038_update_ipv6_routes_option1(self):
             ifcfg_file = "/etc/sysconfig/network-scripts/ifcfg-S038"
             f = open(ifcfg_file, 'w')
             f.write("DEVICE=S038\n")
