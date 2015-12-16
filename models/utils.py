@@ -148,6 +148,23 @@ def _swapoff_device(device_name):
     return
 
 
+def get_dm_name(devname):
+    """
+    Get the device mapper path of the device
+    :param devname: device name
+    :return:
+    """
+    out = get_disks_by_id_out()
+    out = out.splitlines()
+    for line in out[1:]:
+        if devname not in line:
+            continue
+        else:
+            idcol = line.split()[-3]
+            dmdev = idcol.split('-')[-1]
+            return dmdev
+
+
 def change_part_type(part, type_hex):
     """
     Change the type of the given partition
@@ -256,7 +273,9 @@ def _makefs(fstype, name):
     :param name: name of the partition to be formatted (e.g sdb1)
     :return:
     """
-    fs_out, err, rc = run_command(["mkfs", "-t", fstype, "-F", name])
+    majmin = _get_dev_major_min(name)
+    path = _get_dev_node_path(majmin)
+    fs_out, err, rc = run_command(["mkfs", "-t", fstype, "-F", path])
     if rc != 0:
         raise OperationFailed("GINPART00012E", {'err': err})
     return
@@ -592,7 +611,7 @@ def get_lsblk_keypair_out(transport=True):
 
     """
     if transport:
-        cmd = ['lsblk', '-Po', 'NAME,TRAN,TYPE,SIZE']
+        cmd = ['lsblk', '-Po', 'NAME,TYPE,SIZE,TRAN']
     else:
         # Some distributions don't ship 'lsblk' with transport
         # support.
@@ -672,12 +691,16 @@ def parse_lsblk_out(lsblk_out):
             disk_info = {}
             disk_attrs = disk.split()
 
-            type = disk_attrs[2]
-            if not type == 'TYPE="disk"':
+            disk_type = disk_attrs[1]
+            if not disk_type == 'TYPE="disk"':
                 continue
 
-            disk_info['transport'] = disk_attrs[1].split("=")[1][1:-1]
-            disk_info['size'] = disk_attrs[3].split("=")[1][1:-1]
+            if len(disk_attrs) == 4:
+                disk_info['transport'] = disk_attrs[3].split("=")[1][1:-1]
+            else:
+                disk_info['transport'] = "unknown"
+
+            disk_info['size'] = disk_attrs[2].split("=")[1][1:-1]
             return_dict[disk_attrs[0].split("=")[1][1:-1]] = disk_info
 
     except Exception as e:
@@ -726,6 +749,8 @@ def get_final_list():
                 final_dict['mpath_count'] = max_slaves
 
             if 'id' in final_dict:
+                if final_dict['id'] in ll_id_dict:
+                    final_dict['name'] = ll_id_dict[final_dict['id']][0]
                 final_list.append(final_dict)
     except Exception as e:
         wok_log.error("Error getting list of storage devices")

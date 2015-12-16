@@ -6,12 +6,13 @@ BuildRoot:	%{_topdir}/BUILD/%{name}-%{version}-%{release}
 Group:		System Environment/Base
 License:	LGPL/ASL2
 Source0:	%{name}-%{version}.tar.gz
+BuildArch:	noarch
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	python-cheetah
 Requires:	gettext >= 0.17
+Requires:	wok
 Requires:	ginger-base
 Requires:	libuser-python
-Requires:	hddtemp
 Requires:   libvirt
 Requires:	python-ethtool
 Requires:	python-ipaddr
@@ -19,16 +20,8 @@ Requires:	python-magic
 Requires:	python-netaddr
 Requires:	python-augeas
 Requires:   libvirt-python
+Requires:	pyparted
 
-%ifarch ppc64 ppc
-Requires:	powerpc-utils
-Requires:	serviceable.event.provider
-%endif
-
-%ifarch x86_64 ppc64 ppc
-Requires:	tuned
-Requires:	lm_sensors
-%endif
 
 %description
 Ginger is a host management plugin for Wok (Webserver Originated from Kimchi),
@@ -90,7 +83,7 @@ service wokd restart
 %{_datadir}/wok/plugins/ginger/ui/pages/help/en_US/host-admin.html
 %{_datadir}/wok/plugins/ginger/ui/pages/help/pt_BR/host-admin.html
 %{_datadir}/wok/plugins/ginger/ui/pages/help/zh_CN/host-admin.html
-%{_datadir}/wok/plugins/ginger/ui/pages/host-admin.html.tmpl
+%{_datadir}/wok/plugins/ginger/ui/pages/tabs/host-admin.html.tmpl
 %{_datadir}/wok/plugins/ginger/ui/pages/i18n.json.tmpl
 %{_sysconfdir}/wok/plugins.d/ginger.conf
 
