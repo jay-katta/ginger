@@ -172,7 +172,7 @@ class TestCfginterfaces(TestBase):
         super(TestCfginterfaces, cls).setUpClass()
         cls.logging = cls.session.logging
 
-    def test_s001_list_allcfginterfaces(self):
+    def _s001_list_allcfginterfaces(self):
             """
              List all cfginterface details
             """
