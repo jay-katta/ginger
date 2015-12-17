@@ -10,13 +10,13 @@ fstype:
 part_type_code: 
 
 [DASDdevs]
-bus_id: 
-blk_size:
+bus_id: 0.0.0224
+blk_size: 4096
 
 [DASDPartitions]
-dev_name: 
-part_name: 
-size: 
+dev_name: dasdb
+part_name: dasdb1
+size: 40
 
 [FILESYSTEM]
 blk_dev: 
