@@ -17,10 +17,10 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
-from tests.fvt.fvt_base import TestBase
-import utils
 import time
+import utils
 
+from tests.fvt.fvt_base import TestBase
 
 class TestPhysicalVols(TestBase):
     default_schema = {"type": "object",

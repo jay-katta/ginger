@@ -37,60 +37,14 @@ class TestCfginterfaces(TestBase):
                                          "downdelay": "5", "updelay":
                                                  "7", "mimon": "8",
                                              "arp_interval": "9"}
-                            }},
-        "IPV4_INFO": {"IPV4INIT": "yes", "BOOTPROTO": "none",
-                      "DEFROUTE": "yes", "DNSAddresses": ["10.10.10.1",
-                                                          "10.10.10.2"],
-                      "PEERDNS": "yes", "PEERROUTES": "yes",
-                      "IPV4Addresses": [{"IPADDR": "10.10.10.10",
-                                         "NETMASK": "255.255.255.0",
-                                         "GATEWAY": "10.10.10.10"}],
-                      "ROUTES": [{
-                                    "NETMASK": "24",
-                                    "GATEWAY": "10.10.10.123",
-                                    "ADDRESS": "10.10.10.10"}]},
-        "IPV6_INFO": {"IPV6INIT": "yes", "IPV6_AUTOCONF": "yes",
-                      "IPV6_DEFROUTE": "yes",
-                      "DNSAddresses": ["fe80::120b:a9ff:fe00:4de1",
-                                       "fe80::120b:a9ff:fe00:4de2"],
-                      "IPV6_PEERDNS": "yes",
-                      "IPV6_PEERROUTES": "yes",
-                      "ROUTES": [{
-                          "METRIC": "1",
-                          "NETMASK": "64",
-                          "GATEWAY": "fe80::120b:a9ff:fe00:4de5",
-                          "ADDRESS": "fe80::120b:a9ff:fe00:4de6"}]}
+                            }}
         }
 
     create_vlan_data = {
         "BASIC_INFO": {"ONBOOT": "yes", "MTU": "1", "ZONE": "FedoraServer",
                        "DEVICE": "S004", "TYPE": "Vlan",
                        "VLANINFO": {"VLAN": "yes", "VLANID": "9",
-                                    "PHYSDEV": "S004"}},
-        "IPV4_INFO": {"IPV4INIT": "yes", "BOOTPROTO": "none",
-                      "DEFROUTE": "yes",
-                      "DNSAddresses": ["10.10.10.1", "10.10.10.2"],
-                      "PEERDNS": "yes",
-                      "PEERROUTES": "yes",
-                      "IPV4Addresses": [{
-                          "IPADDR": "10.10.10.10",
-                          "NETMASK": "255.255.255.0",
-                          "GATEWAY": "10.10.10.10"}],
-                      "ROUTES": [{
-                          "NETMASK": "24",
-                          "GATEWAY": "10.10.10.123",
-                          "ADDRESS": "10.10.10.10"}]},
-        "IPV6_INFO": {"IPV6INIT": "yes", "IPV6_AUTOCONF": "yes",
-                      "IPV6_DEFROUTE": "yes",
-                      "DNSAddresses": ["fe80::120b:a9ff:fe00:4de1",
-                                       "fe80::120b:a9ff:fe00:4de2"],
-                      "IPV6_PEERDNS": "yes",
-                      "IPV6_PEERROUTES": "yes",
-                      "ROUTES": [{
-                          "METRIC": "1",
-                          "NETMASK": "64",
-                          "GATEWAY": "fe80::120b:a9ff:fe00:4de5",
-                          "ADDRESS": "fe80::120b:a9ff:fe00:4de6"}]}
+                                    "PHYSDEV": "S004"}}
         }
 
     bond_with_noslaves = {
@@ -218,7 +172,7 @@ class TestCfginterfaces(TestBase):
         super(TestCfginterfaces, cls).setUpClass()
         cls.logging = cls.session.logging
 
-    def test_s001_list_allcfginterfaces(self):
+    def _s001_list_allcfginterfaces(self):
             """
              List all cfginterface details
             """
@@ -295,8 +249,6 @@ class TestCfginterfaces(TestBase):
                 os.remove(ifcfg_slave1)
                 os.remove(ifcfg_slave2)
                 os.remove("/etc/sysconfig/network-scripts/ifcfg-S003")
-                os.remove("/etc/sysconfig/network-scripts/route-S003")
-                os.remove("/etc/sysconfig/network-scripts/route6-S003")
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s003_createbond()')
 
@@ -324,8 +276,6 @@ class TestCfginterfaces(TestBase):
             finally:
                 os.remove(ifcfg_master)
                 os.remove("/etc/sysconfig/network-scripts/ifcfg-vlan0009")
-                os.remove("/etc/sysconfig/network-scripts/route-S004")
-                os.remove("/etc/sysconfig/network-scripts/route6-S004")
                 self.logging.info('<-- TestCfginterfaces.'
                                   'test_s004_createvlan()')
 
