@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 from tests.fvt.fvt_base import TestBase
-from tests.fvt import utils
+import utils
 import time
 
 
@@ -93,8 +93,11 @@ class TestPhysicalVols(TestBase):
         try:
             self.logging.info('--> TestPhysicalVols.test_get_pvs()')
             resp_pvs = self.session.request_get_json(self.uri_pvs,[200])
-            for pv in resp_pvs:
-                self.validator.validate_json(pv, self.default_schema)
+            if resp_pvs != []:
+                for pv in resp_pvs:
+                    self.validator.validate_json(pv, self.default_schema)
+            else:
+                self.logging.debug('No physical volumes found on the machine')
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))

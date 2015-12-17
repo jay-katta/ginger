@@ -96,8 +96,11 @@ class TestPartitions(TestBase):
         try:
             self.logging.info('--> TestPartitions.test_get_partitions()')
             resp_parts = self.session.request_get_json(self.uri_partitions,[200])
-            for part in resp_parts:
-                self.validator.validate_json(part, self.default_schema)
+            if resp_parts != []:
+                for part in resp_parts:
+                    self.validator.validate_json(part, self.default_schema)
+            else:
+                self.logging.debug('No disks or partitions found on the machine')
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))

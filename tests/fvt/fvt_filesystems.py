@@ -20,7 +20,6 @@
 from tests.fvt.fvt_base import TestBase
 import utils
 
-
 class TestFilesystems(TestBase):
     default_schema = {"type": "object",
                       "properties": {"use%": {"type": "string"},
@@ -190,8 +189,11 @@ class TestFilesystems(TestBase):
         try:
             self.logging.info('--> TestFilesystems.test_list_fs()')
             resp_fs = self.session.request_get_json(self.uri_filesystems,[200])
-            for resp in resp_fs:
-                self.validator.validate_json(resp, self.default_schema)
+            if resp_fs != []:
+                for resp in resp_fs:
+                    self.validator.validate_json(resp, self.default_schema)
+            else:
+                self.logging.debug('No filesystems found on the machine')
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
@@ -215,8 +217,8 @@ class TestFilesystems(TestBase):
         Unmount filesystem
         :return:
         """
-        mnt_pt = '%2Ftest'
-        nfs_mnt = '%2Ftest33'
+        mnt_pt = '%2F' + utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
+        nfs_mnt = '%2F' + utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
         try:
             self.logging.info('--> TestFilesystems.test_unmount_fs()')
             self.session.request_delete(self.uri_filesystems + '/' + mnt_pt, [204])

@@ -120,8 +120,11 @@ class TestVolGroups(TestBase):
         try:
             self.logging.info('--> TestVolGroups.test_get_vgs()')
             resp_vgs = self.session.request_get_json(self.uri_vgs,[200])
-            for vg in resp_vgs:
-                self.validator.validate_json(vg, self.default_schema)
+            if resp_vgs != []:
+                for vg in resp_vgs:
+                    self.validator.validate_json(vg, self.default_schema)
+            else:
+                self.logging.debug('No volume groups found on the machine')
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))

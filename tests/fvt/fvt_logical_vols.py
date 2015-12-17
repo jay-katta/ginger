@@ -115,8 +115,11 @@ class TestLogicalVols(TestBase):
         try:
             self.logging.info('--> TestLogicalVols.test_get_lvs()')
             resp_lvs = self.session.request_get_json(self.uri_lvs,[200])
-            for lv in resp_lvs:
-                self.validator.validate_json(lv, self.default_schema)
+            if resp_lvs != []:
+                for lv in resp_lvs:
+                    self.validator.validate_json(lv, self.default_schema)
+            else:
+                self.logging.debug('No logical volumes found on the machine')
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
