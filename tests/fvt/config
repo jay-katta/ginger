@@ -1,5 +1,5 @@
 [PV]
-pvname: /dev/dasde 
+pvname: /dev/mapper/36005076802810d5048000000000029ad 
 
 [PARTITIONS]
 devname: 
