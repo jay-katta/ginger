@@ -1,5 +1,5 @@
 [PV]
-pvname:
+pvname: /dev/dasde 
 
 [PARTITIONS]
 devname: 
