@@ -36,7 +36,7 @@ type:
 size: 
 
 [VG]
-vgname: 
-pvpaths: 
-add_PVs: 
+vgname: testvg
+pvpaths: /dev/mapper/36005076802810d5048000000000029ad
+add_PVs: /dev/mapper/36005076802810d5048000000000029aa
  
