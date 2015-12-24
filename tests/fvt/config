@@ -19,16 +19,16 @@ part_name: dasdb1
 size: 40
 
 [FILESYSTEM]
-blk_dev: 
-nfs_server: 
-nfs_share: 
-mount_point: 
-nfs_mntpt: 
+blk_dev: /dev/dasde
+nfs_server: localhost
+nfs_share: /var/ftp/nfs
+mount_point: /testfolder
+nfs_mntpt: /nfsmount
 
 [LV]
-vgname: 
-size: 
-lvname: 
+vgname: testvg1
+size: 20M
+lvname: lvol0
 
 [Swaps]
 file_loc: 
