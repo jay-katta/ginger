@@ -117,7 +117,7 @@ class TestPhysicalVols(TestBase):
         finally:
             self.logging.info('<-- TestPhysicalVols.test_get_single_pv()')
 
-    def S004_delete_pv(self):
+    def test_S004_delete_pv(self):
         """
         Delete the PV specified in the config file
         :return:
