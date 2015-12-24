@@ -1,13 +1,13 @@
 [PV]
-pvname: /dev/mapper/36005076802810d5048000000000029ad 
+pvname: /dev/mapper/36005076802810d5048000000000029af 
 
 [PARTITIONS]
-devname: 
-part_size: 
-part_name: 
-format_part: 
-fstype: 
-part_type_code: 
+devname: /dev/sde
+part_size: 20M
+part_name: sde1
+format_part: 36005076802810d5048000000000029ad
+fstype: ext4
+part_type_code: 82
 
 [DASDdevs]
 bus_id: 0.0.0224
@@ -31,9 +31,9 @@ size: 20M
 lvname: lvol0
 
 [Swaps]
-file_loc: 
-type: 
-size: 
+file_loc: /dev/dm-1 
+type: device
+size: 10M
 
 [VG]
 vgname: testvg
