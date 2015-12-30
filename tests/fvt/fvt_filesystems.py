@@ -217,8 +217,10 @@ class TestFilesystems(TestBase):
         Unmount filesystem
         :return:
         """
-        mnt_pt = '%2F' + utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
-        nfs_mnt = '%2F' + utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
+        mnt_pt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
+        mnt_pt = mnt_pt.replace("/", "%2F")
+        nfs_mnt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
+        nfs_mnt = nfs_mnt.replace("/", "%2F")
         try:
             self.logging.info('--> TestFilesystems.test_unmount_fs()')
             self.session.request_delete(self.uri_filesystems + '/' + mnt_pt, [204])
