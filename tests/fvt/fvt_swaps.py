@@ -104,9 +104,8 @@ class TestSwaps(TestBase):
         try:
             self.logging.debug('Get Swap information')
             file_loc = utils.readconfig(self, 'config', 'Swaps', 'file_loc')
-            fl = file_loc.split('/')
-            fl = '%2F' + fl[1] + '%2F' + fl[2]
-            swap_details = self.session.request_get_json(self.uri_swaps + '/' + fl,[200])
+            file_loc = file_loc.replace("/", "%2F")
+            swap_details = self.session.request_get_json(self.uri_swaps + '/' + file_loc,[200])
             self.validator.validate_json(swap_details, self.default_swaps_schema)
         except Exception, err:
             self.logging.error(str(err))
@@ -122,9 +121,8 @@ class TestSwaps(TestBase):
         self.logging.info('--> TestSwaps.test_delete_Swap()')
         try:
             file_loc = utils.readconfig(self, 'config', 'Swaps', 'file_loc')
-            fl = file_loc.split('/')
-            fl = '%2F' + fl[1] + '%2F' + fl[2]
-            self.session.request_delete(uri=self.uri_swaps + '/' + fl, expected_status_values=[204])
+            file_loc = file_loc.replace("/", "%2F")
+            self.session.request_delete(uri=self.uri_swaps + '/' + file_loc, expected_status_values=[204])
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
