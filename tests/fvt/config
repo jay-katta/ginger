@@ -2,10 +2,10 @@
 pvname: /dev/mapper/36005076802810d5048000000000029ab 
 
 [PARTITIONS]
-devname: /dev/sde
+devname: /dev/sdc
 part_size: 20M
-part_name: sde1
-format_part: 36005076802810d5048000000000029ad
+part_name: sdc1
+format_part: 36005076802810d5048000000000029b3
 fstype: ext4
 part_type_code: 82
 
@@ -14,8 +14,8 @@ bus_id: 0.0.0224
 blk_size: 4096
 
 [DASDPartitions]
-dev_name: dasdb
-part_name: dasdb1
+dev_name: dasdh
+part_name: dasdh1
 size: 40
 
 [FILESYSTEM]
