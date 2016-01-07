@@ -102,6 +102,15 @@ server.
             the machine must be running the permanent image.
 
 
+### Resource: FirmwareProgess (Power System firmware)
+
+**URI:** /plugins/ginger/fwprogress
+
+**Methods:**
+
+* **GET**: Retrieve the output of the update_flash execution.
+
+
 ### Collection: SAN Adapters (Fibre Channel SCSI Hosts - HBAs)
 
 **URI:** /plugins/ginger/san_adapters
@@ -485,7 +494,6 @@ URI: /plugins/ginger/dasddevs/*:bus_id*
 
         * status: Status of the DASD device:
         * active: dasd device is in active state
-        * n/f: dasd device is in unformatted state
         * blocks: Number of blocks.
         * name:  Name of DASD device.
         * uid: uid of DASD device.
@@ -723,3 +731,43 @@ URI: /plugins/ginger/partitions/*:part_name*
 * **POST**:
    * activate : Activates an interface
    * deactivate : Deactivates an interface
+
+### Collection: SysModules
+
+URI: /plugins/ginger/sysmodules
+
+**Methods:**
+
+* **GET**: Retrieve a list of all loaded kernel modules (lsmod output).
+* Returns: a list of SysModule objects.
+
+* **POST**: Load a kernel module using modprobe.
+        * module: the name of the module.
+        * parms: arguments to be passed to the module, as you would with modprobe.
+* Returns: the full description of the module loaded.
+
+### Resource: SysModule
+
+URI: /plugins/ginger/sysmodules/*:module_name*
+
+*Methods:**
+
+* **GET**: Retrieve the full description of the module. Note that you can retrieve information
+of all available modules, not just the loaded ones. At this moment there is no attribute that will indicate whether a module is loaded or not. The following fields can somethings be ommited, so the caller must verify the existence of each one but 'name' and 'filename':
+        * name - string
+        * filename - string
+        * description - string
+        * authors  -array
+        * depends - array
+        * intree - str
+        * license - str
+        * vermagic - str
+        * signer -str
+        * sig_key - str
+        * sig_hashalgo -str
+        * aliases - an array of alias.
+        * parms - an array of parm (module parameters).
+* Returns: a dictionary with the fetched values.
+
+* **DELETE**: Unload a loaded kernel module using modprobe -r.
+* Returns: nothing.

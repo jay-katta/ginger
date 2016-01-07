@@ -36,7 +36,7 @@ def create_file(self):
     if rc:
         self.assertRaises(OperationFailed)
 
-    fscmd = ["mkfs.ext4", "/testfile"]
+    fscmd = ["mkfs.ext4", "/testfile", "-F"]
     fsout, err, rc = run_command(fscmd)
     if rc:
         self.assertRaises(OperationFailed)
@@ -99,7 +99,7 @@ class FileSystemTests(unittest.TestCase):
                        'persistent': persistent})
             rollback.prependDefer(fsd.delete, mntpt)
 
-            with self.assertRaises(OperationFailed):
+            with self.assertRaises(InvalidParameter):
                 fs.create({'type': fstype, 'blk_dev': blkdev,
                            'mount_point': mntpt,
                            'persistent': persistent})

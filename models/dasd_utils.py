@@ -23,7 +23,7 @@ import subprocess
 
 from parted import Device as PDevice
 from parted import Disk as PDisk
-from wok.exception import OperationFailed
+from wok.exception import InvalidParameter, OperationFailed
 from wok.utils import run_command, wok_log
 
 
@@ -65,7 +65,7 @@ def _parse_lsdasd_output(output):
         len_dasd = len(split_out)-1
         for i in split_out[:len_dasd]:
             fs_dict = {}
-            p = re.compile("^\s+(\w+)\:\s+(\w+\/?\.?\w*\.?\w*\.?\w*)$")
+            p = re.compile(r'^\s+(\w+)\:\s+(.+)$')
             parsed_out = i.splitlines()
             first_spl = i.splitlines()[0].split("/")
             fs_dict['bus-id'] = first_spl[0]
@@ -79,6 +79,8 @@ def _parse_lsdasd_output(output):
                 if fs_dict['status'] == 'n/f':
                     fs_dict['blksz'] = 'None'
                     fs_dict['blocks'] = 'None'
+            if fs_dict['size'] == '\t':
+                fs_dict['size'] = 'Unknown'
             out_list.append(fs_dict)
     except:
         wok_log.error("Parsing lsdasd output failed")
@@ -349,3 +351,24 @@ def _delete_dasd_part(dev, part_id):
 def _del_part_str(part_id):
     part_str = '\nd\n' + part_id + '\n' + 'w\n'
     return part_str
+
+
+def validate_bus_id(bus_id):
+    """
+    Validate bus ID
+    :param bus_id: bus ID
+    """
+    pattern = re.compile(r'\d\.\d\.\w{4}')
+    valid = pattern.match(bus_id)
+
+    if not valid:
+        wok_log.error("Unable to validate bus ID, %s", bus_id)
+        raise InvalidParameter("GINDASD0011E", {'bus_id': bus_id})
+
+    # No need to worry about IndexError exception below becuase
+    # the regex above would have made sure we go through the
+    # split operation on the string smoothly
+    ch_len = bus_id.split(".")[-1]
+    if len(ch_len) > 4:
+        wok_log.error("Unable to validate bus ID, %s", bus_id)
+        raise InvalidParameter("GINDASD0011E", {'bus_id': bus_id})

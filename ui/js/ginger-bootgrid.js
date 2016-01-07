@@ -21,6 +21,14 @@
 	var gridId=opts['gridId'];
 	var fields = JSON.parse(opts['gridFields']);
 
+  var gridMessage=('loadingMessage' in opts && opts['loadingMessage'].trim() && opts['loadingMessage'].length > 0)?opts['loadingMessage']:'Loading...';
+  var gridloadingHtml = ['<div id="'+ gridId +'-loading" class="wok-list-loader-container wok-list-loading">',
+	                       '<div class="wok-list-loading-icon"></div>',
+	                       '<div class="wok-list-loading-text">'+ gridMessage +'</div>',
+	                       '</div>'].join('');
+
+	$(gridloadingHtml).appendTo('#'+containerId);
+
 	var gridHtml = [
 	                '<table id="',gridId,'" class="table table-condensed table-hover table-striped" >',
 	                  '<thead>',
@@ -56,13 +64,13 @@
         rowSelect:true,
         formatters:{
           "percentage-used" : function(column , row){
-          return '<div class="progress"><div class="progress-bar-info" style="width:'+row[column['id']]+'">'+row[column['id']]+'</div></div>';
+          return '<div class="progress"><div class="progress-bar-info" style="width:'+row[column['id']]+';background-color: #008abf">'+row[column['id']]+'</div></div>';
         },
           "nw-interface-status": function(column, row)
            {
              var value = row[column.id];
              if (column.id == "status") {
-               if (value == "up")
+               if (value == "up" || value == "unknown")
                  return "<span class=\"nw-interface-status-enabled enabled\"> <i class=\"fa fa-power-off\"></i></span>";
              return "<span class=\"nw-interface-status-disabled disabled\"> <i class=\"fa fa-power-off\"></i></span>";
            }
@@ -75,11 +83,7 @@
               return "";
             }
             return ipaddr + "/" + netmask;
-          },
-					"editableSize":function(column, row)
-					{
-		        return '<a href="#" id="fsSize">'+row['size']+'</a>	';
-					}
+          }
        },
         css:{
             iconDown : "fa fa-sort-desc",
@@ -91,6 +95,7 @@
     }).on("load.rs.jquery.bootgrid", function (e) {
         $('.input-group .glyphicon-search').removeClass('.glyphicon-search').addClass('fa fa-search');
      });
+     ginger.hideBootgridLoading(opts);
 		 return grid;
 }
 
@@ -177,3 +182,17 @@ ginger.changeButtonStatus = function(buttonIds, state){
     }
   });
 }
+
+ginger.showBootgridLoading = function(opts){
+	var gridMessage = ('loadingMessage' in opts && opts['loadingMessage'].trim() && opts['loadingMessage'].length > 0)?opts['loadingMessage']:'Loading...';
+	$("#"+opts['gridId']+"-loading .wok-list-loading-text").text(gridMessage);
+	$("#"+opts['gridId']+"-loading").show();
+	$("#"+opts['gridId']+"-loading").css( "zIndex", 1);
+};
+
+ginger.hideBootgridLoading = function(opts){
+	var gridMessage = ('loadingMessage' in opts && opts['loadingMessage'].trim() && opts['loadingMessage'].length > 0)?opts['loadingMessage']:'Loading...';
+	$("#"+opts['gridId']+"-loading .wok-list-loading-text").text(gridMessage);
+	$("#"+opts['gridId']+"-loading").hide();
+	$("#"+opts['gridId']+"-loading").css( "zIndex", 1);
+};

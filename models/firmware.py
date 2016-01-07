@@ -18,13 +18,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 
+import magic
 import os
 import platform
-import magic
+import time
 
 from wok.exception import OperationFailed
-from wok.utils import wok_log
-from wok.utils import run_command
+from wok.model.tasks import TaskModel, TasksModel
+from wok.utils import add_task, run_command, wok_log
+
+fw_tee_log = '/tmp/fw_tee_log.txt'
 
 
 # FIXME: When model is restructured, use
@@ -42,6 +45,10 @@ class FirmwareModel(object):
     """
     The model class for viewing and updating the Power firmware level
     """
+
+    def __init__(self, **kargs):
+        self.task = TaskModel(**kargs)
+        self.objstore = kargs['objstore']
 
     def lookup(self, params=None):
         output, error, rc = run_command('lsmcode')
@@ -92,9 +99,10 @@ class FirmwareModel(object):
         if not pow_ok:
             command.insert(1, '-n')
         wok_log.info('FW update: System will reboot to flash the firmware.')
-        output, error, rc = run_command(command)
-        if rc:
-            raise OperationFailed('GINFW0004E', {'rc': rc})
+
+        cmd_params = {'command': command, 'operation': 'update'}
+        taskid = add_task('', self._execute_task, self.objstore, cmd_params)
+        self.task.wait(taskid)
 
     def commit(self, name):
         command = ['update_flash', '-c']
@@ -114,3 +122,93 @@ class FirmwareModel(object):
 
     def is_feature_available(self):
         return platform.machine().startswith('ppc')
+
+    def _execute_task(self, cb, params):
+        cmd = params['command']
+        cb("%s running." % cmd[0])
+
+        output, error, rc = run_command(cmd, tee=fw_tee_log)
+
+        if rc:
+            if params['operation'] == 'update':
+                wok_log.error('Error flashing firmware. Details:\n %s' % error)
+                cb("Error", True)
+                raise OperationFailed('GINFW0004E', {'rc': rc})
+            else:
+                wok_log.error('Async run_command error: ', error)
+                cb("Error", True)
+        cb("OK", True)
+
+
+class FirmwareProgressModel(object):
+    def __init__(self, **kargs):
+        self.tasks = TasksModel(**kargs)
+        self.task = TaskModel(**kargs)
+        self.current_taskid = 0
+        self.objstore = kargs['objstore']
+
+    def is_update_flash_running(self):
+        for task in self.tasks.get_list():
+            info = self.task.lookup(task)
+            if (info['status'] == 'running' and
+                    info['message'] == 'update_flash running.'):
+                return True
+        self.current_taskid = 0
+        return False
+
+    def tailUpdateLogs(self, cb, tee_log_file=None):
+        """
+        Read the log_file to return it's content (the output of update_flash
+        command). If the file is not found, a simple '*' is displayed to track
+        progress.
+        """
+        if not self.is_update_flash_running():
+            return cb("Error", True)
+
+        fd = None
+        try:
+            fd = os.open(tee_log_file, os.O_RDONLY)
+
+        # cannot open file, print something to let users know that the
+        # system is being upgrading until the package manager finishes its
+        # job
+        except (TypeError, OSError):
+            msgs = []
+            while self.is_update_flash_running():
+                msgs.append('*')
+                cb(''.join(msgs))
+                time.sleep(1)
+            msgs.append('\n')
+            return cb(''.join(msgs), True)
+
+        # go to the end of logfile and starts reading, if nothing is read or
+        # a pattern is not found in the message just wait and retry until
+        # the package manager finishes
+        os.lseek(fd, 0, os.SEEK_END)
+        msgs = []
+        progress = []
+        while True:
+            read = os.read(fd, 1024)
+            if not read:
+                if not self.is_update_flash_running():
+                    break
+
+                if not msgs:
+                    progress.append('*')
+                    cb(''.join(progress))
+
+                time.sleep(1)
+                continue
+
+            msgs.append(read)
+            cb(''.join(msgs))
+
+        os.close(fd)
+        return cb(''.join(msgs), True)
+
+    def lookup(self, *name):
+        if self.current_taskid == 0:
+            self.current_taskid = add_task('/plugins/ginger/fwprogress',
+                                           self.tailUpdateLogs, self.objstore,
+                                           fw_tee_log)
+        return self.task.lookup(self.current_taskid)

@@ -17,7 +17,8 @@
  */
 
 ginger = {};
-
+ginger.hostarch = null;
+trackingTasks = [];
 ginger.getFirmware = function(suc, err){
     wok.requestJSON({
         url : 'plugins/ginger/firmware',
@@ -141,6 +142,31 @@ ginger.updateInterface = function(name, content, suc, err){
             wok.message.error(data.responseJSON.reason);
         }
     });
+};
+
+ginger.enableInterface = function(name, status, suc, err) {
+    wok.requestJSON({
+        url : "plugins/ginger/network/interfaces/" + name +
+              '/' + (status == "down" ? 'deactivate' : 'activate'),
+        type : 'POST',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : err
+    });
+};
+
+ginger.deleteInterface = function(name, suc, err) {
+  wok.requestJSON({
+      url : 'plugins/ginger/network/cfginterfaces/' + name,
+      type : 'DELETE',
+      contentType : 'application/json',
+      dataType : 'json',
+      success : suc,
+      error : err || function(data) {
+          wok.message.error(data.responseJSON.reason);
+      }
+  });
 };
 
 ginger.getNetworkGlobals = function(suc, err){
@@ -408,3 +434,179 @@ ginger.getCapabilities = function(suc, err) {
         }
     });
 }
+
+/**
+ * Get the host information.
+ */
+ginger.getHostDetails = function (suc,err) {
+  wok.requestJSON({
+      url : 'plugins/gingerbase/host',
+      type : 'GET',
+      resend: true,
+      contentType : 'application/json',
+      dataType : 'json',
+      success : suc,
+      error: err
+  });
+}
+
+/**
+ * Get the host plugins information.
+ */
+ginger.getPlugins = function(suc, err) {
+    wok.requestJSON({
+        url : 'plugins',
+        type : 'GET',
+        resend: true,
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error: err
+    });
+};
+ginger.getFilesystems =  function(suc , err){
+	wok.requestJSON({
+        url : 'plugins/ginger/filesystems',
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+}
+ginger.getSwapdevices =  function(suc , err){
+	wok.requestJSON({
+        url : 'plugins/ginger/swaps',
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+}
+
+ginger.getVolumegroups =  function(suc , err){
+	wok.requestJSON({
+        url : 'plugins/ginger/vgs',
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+}
+ginger.getStgdevs =  function(suc , err){
+    wok.requestJSON({
+        url : 'plugins/ginger/stgdevs',
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+}
+
+ginger.getFcpTapeDevices =  function(suc , err){
+    wok.requestJSON({
+        url : 'plugins/gingers390x/lstapes',
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+}
+ginger.formatDASDDevice = function(busId, settings, suc, err, progress) {
+    var onResponse = function(data) {
+       taskID = data['id'];
+       ginger.trackTask(taskID, suc, err, progress);
+    };
+
+    wok.requestJSON({
+        url : '/plugins/ginger/dasddevs/'+busId+'/format',
+        type : 'POST',
+        contentType : 'application/json',
+        data : JSON.stringify(settings),
+        dataType : 'json',
+        success: onResponse,
+        error: err
+    });
+}
+
+ginger.removeDASDDevice = function(busId, settings, suc, err, progress) {
+    wok.requestJSON({
+        url : "/plugins/gingers390x/storagedevices/"+ busId +"/offline",
+        type : 'POST',
+        contentType : 'application/json',
+        data : JSON.stringify(settings),
+        dataType : 'json',
+        success: suc,
+        error: err
+    });
+}
+
+ginger.removeFCDevice = function(lunPath, settings, suc, err, progress) {
+    wok.requestJSON({
+        url : "/plugins/gingers390x/fcluns/"+ lunPath,
+        type : 'DELETE',
+        contentType : 'application/json',
+        data : JSON.stringify(settings),
+        dataType : 'json',
+        success: suc,
+        error: err
+    });
+}
+
+ginger.getTask = function(taskId, suc, err) {
+    wok.requestJSON({
+        url : 'plugins/ginger/tasks/' + encodeURIComponent(taskId),
+        type : 'GET',
+        contentType : 'application/json',
+        dataType : 'json',
+        success : suc,
+        error : err
+    });
+}
+ginger.trackTask = function(taskID, suc, err, progress) {
+    var onTaskResponse = function(result) {
+        var taskStatus = result['status'];
+        switch(taskStatus) {
+        case 'running':
+            progress && progress(result);
+            setTimeout(function() {
+                ginger.trackTask(taskID, suc, err, progress);
+            }, 2000);
+            break;
+        case 'finished':
+            suc && suc(result);
+            break;
+        case 'failed':
+            err && err(result);
+            break;
+        default:
+            break;
+        }
+    };
+
+    ginger.getTask(taskID, onTaskResponse, err);
+    if(trackingTasks.indexOf(taskID) < 0)
+        trackingTasks.push(taskID);
+}
+
+ginger.trackdevices = function(trackDevicelist,removeItem) {
+    "use strict";
+    trackDevicelist = jQuery.grep(trackDevicelist, function(value) {
+          return value != removeItem;
+        });
+    return trackDevicelist;
+};

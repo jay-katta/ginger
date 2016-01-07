@@ -144,7 +144,19 @@ CONST_SPACE = ' '
 class CfginterfacesModel(object):
     def get_list(self):
         nics = ethtool.get_devices()
-        return sorted(nics)
+        # To handle issue https://github.com/kimchi-project/ginger/issues/99
+        # cfginterface resource model deals with interface which has config
+        # files. remove interface from interface list if ifcfg file not exist.
+        nics_with_ifcfgfile = []
+        for iface in nics:
+            filename = ifcfg_filename_format % iface
+            fileexist = os.path.isfile(os.sep + network_configpath + filename)
+            if (not fileexist):
+                wok_log.warn('ifcfg file not exist for'
+                             ' interface :' + iface)
+            else:
+                nics_with_ifcfgfile.append(iface)
+        return sorted(nics_with_ifcfgfile)
 
     def create(self, params):
         self.validate_minimal_info(params)
@@ -423,6 +435,8 @@ class CfginterfaceModel(object):
             elif interface_type == IFACE_BOND:
                 self.get_bond_info(info, cfgmap)
         wok_log.debug('end get_basic_info')
+        if MTU not in cfgmap:
+            info[BASIC_INFO][MTU] = "1500"
         return info
 
     # adding method to support multiple ipv4 in lookup listing
@@ -462,7 +476,10 @@ class CfginterfaceModel(object):
             if len(dnsaddresses) > 0:
                 info[IPV4_ID][DNSAddresses] = dnsaddresses
             # construct routeinfo.
-            routes = self.get_routes_map(cfgmap[DEVICE], 4)
+            if DEVICE in cfgmap:
+                routes = self.get_routes_map(cfgmap[DEVICE], 4)
+            elif NAME in cfgmap:
+                routes = self.get_routes_map(cfgmap[NAME], 4)
             if len(routes) > 0:
                 info[IPV4_ID][ROUTES] = routes
         wok_log.debug('End get_ipv4_info')
@@ -486,7 +503,10 @@ class CfginterfaceModel(object):
         if len(dnsaddresses) > 0:
             info[IPV6_ID][DNSAddresses] = dnsaddresses
         # construct routeinfo.
-        routes = self.get_routes_map(cfgmap[DEVICE], 6)
+        if DEVICE in cfgmap:
+            routes = self.get_routes_map(cfgmap[DEVICE], 6)
+        elif NAME in cfgmap:
+            routes = self.get_routes_map(cfgmap[NAME], 6)
         if len(routes) > 0:
             info[IPV6_ID][ROUTES] = routes
         wok_log.debug('End get_ipv6_info')

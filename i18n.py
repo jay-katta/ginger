@@ -257,6 +257,7 @@ messages = {
     "GINDASD0008E": _("Failed to format DASD device"),
     "GINDASD0009E": _("Require DASD device name to be formatted"),
     "GINDASD0010E": _("Require block size for formatting DASD device"),
+    "GINDASD0011E": _("Invalid bus ID, %(bus_id)s"),
 
     "GINDASDPAR0001E": _("Error in executing 'lsblk -Pbo' command"),
     "GINDASDPAR0002E": _("Error while getting block device information"),
@@ -266,6 +267,12 @@ messages = {
     "GINDASDPAR0008E": _("Failed to retrieve list of DASD partitions"),
     "GINDASDPAR0009E": _("Failed to retrieve details of the specified DASD partition"),
     "GINDASDPAR0010E": _("Failed to delete partition"),
+
+    "GINSYSMOD00001E": _("Error getting loaded module list: %(err)s"),
+    "GINSYSMOD00002E": _("Module %(module)s not found."),
+    "GINSYSMOD00003E": _("Error fetching info of module %(module)s, reason: %(err)s"),
+    "GINSYSMOD00004E": _("Error loading module %(module)s, reason: %(err)s"),
+    "GINSYSMOD00004E": _("Error unloading module %(module)s, reason: %(err)s"),
 
     "GINSD00001E": _("Error executing 'ls -l /dev/disk/by-id, %(err)s"),
     "GINSD00002E": _("Error executing 'lsblk -Po, %(err)s"),

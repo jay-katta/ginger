@@ -251,185 +251,6 @@ ginger.initConfigBak = function() {
     ginger.initBatDelDialog();
 };
 
-ginger.initNetworkConfig = function() {
-    var toggleBtnEdit = function(item, on) {
-        $("button", item).toggleClass("hidden");
-        $(".cancel", item).toggleClass("hidden", !on);
-    };
-    var attachBtnEvt = function(node, editFunc, saveFunc, cancelFunc) {
-        // disable the inputs for edit if they are already filled
-        var ip = $("#ip-address", node);
-        var mask = $("#ip-mask", node);
-        if (!(ip === undefined || ip === null) && !(mask === undefined || mask === null)) {
-            if (!(ip.val() === "") && !(mask.val() === "")) {
-                ip.prop("disabled", true);
-                mask.prop("disabled", true);
-            }
-        }
-        $("input", node).each(function() {
-            $(this).on("keyup", function() {
-                var isValid = ginger.validateIp($(this).val());
-                if ($(this).parent().hasClass("mask")) {
-                    isValid = isValid && ginger.validateMask($(this).val());
-                }
-                isValid = isValid || $(this).val().trim() == "";
-                $(this).toggleClass("invalid-field", !isValid);
-                $(".save", node).prop("disabled", !isValid);
-            });
-        });
-        $(".edit", node).on("click", function(event) {
-            event.preventDefault();
-            editFunc(node);
-        });
-        $(".save", node).on("click", function(event) {
-            event.preventDefault();
-            saveFunc(node);
-        });
-        $(".cancel", node).on("click", function(event) {
-            event.preventDefault();
-            cancelFunc(node);
-        });
-    };
-    ginger.getInterfaces(function(data) {
-        var toggleInterfaceEdit = function(item, on) {
-            $("#ip-address", item).prop("disabled", !on);
-            $("#ip-mask", item).prop("disabled", !on);
-            toggleBtnEdit(item, on);
-        };
-        for (var i = 0; i < data.length; i++) {
-            var isEdit = data[i].ipaddr == "" || data[i].netmask == "";
-            data[i].viewMode = isEdit ? "hidden" : "";
-            data[i].editMode = isEdit ? "" : "hidden";
-            var tempNode = $.parseHTML(wok.substitute($("#nicItem").html(), data[i]));
-            $("#gingerInterface").append(tempNode);
-            attachBtnEvt(tempNode, function(node) {
-                toggleInterfaceEdit(node, true);
-            }, function(node) {
-                // nicItem Save
-                var item = node;
-                var name = $("label", item).first().html();
-                var ip = $("#ip-address", item);
-                var mask = $("#ip-mask", item);
-                var interface = {
-                    ipaddr: $("input", ip).val(),
-                        netmask: $("input", mask).val()
-                };
-                ginger.updateInterface(name, interface, function() {
-                    ginger.confirmInterfaceUpdate(name, function() {
-                        $("label", ip).text(interface.ipaddr);
-                        $("label", mask).text(interface.netmask);
-                        toggleInterfaceEdit(item, false);
-                    });
-                });
-            }, function(node) {
-                // nicItem Cancel
-                var item = node;
-                $("input", item).removeClass("invalid-field");
-                $("button", item).prop("disabled", false);
-                var ip = $("#ip-address", item);
-                var mask = $("#ip-mask", item);
-                $("input", ip).val($("label", ip).text());
-                $("input", mask).val($("label", mask).text());
-                toggleInterfaceEdit(item, false);
-            });
-        }
-    });
-    ginger.getNetworkGlobals(function(data) {
-        var toggleNWGlobalsEdit = function(item, on) {
-            $("#dns-ip-address", item).prop("disabled", !on);
-            toggleBtnEdit(item, on);
-        };
-        var attachNWGlobalBtnEvt = function(node, saveFunc) {
-            attachBtnEvt(node, function() {
-                toggleNWGlobalsEdit(node, true);
-            }, function() {
-                saveFunc();
-            }, function() {
-                toggleNWGlobalsEdit(node, false);
-            });
-        };
-        if (!data.nameservers || data.nameservers.length == 0) {
-            data.nameservers = [""];
-        }
-        var addGlobalItem = function(container, itemValue, saveFunc) {
-            var ip = itemValue;
-            var tempNode = $.parseHTML(wok.substitute($("#nwGlobalItem").html(), {
-                ip: ip,
-                viewMode: ip == "" ? "hidden" : "",
-                editMode: ip == "" ? "" : "hidden"
-            }));
-            $("input", tempNode).prop("disabled", ip != "");
-            $("#" + container).append(tempNode);
-            $("input", tempNode).prop("oriVal", ip);
-            attachBtnEvt(tempNode, function(node) {
-                toggleNWGlobalsEdit(node, true);
-            }, function(node) {
-                saveFunc(node, function(item) {
-                    var input = $("input", item);
-                    if (input.val() == "" && $(".sec-content", "#" + container).length != 1) {
-                        item.remove();
-                    } else {
-                        input.prop("oriVal", input.val());
-                        toggleNWGlobalsEdit(item, false);
-                    }
-                });
-            }, function(node) {
-                // DNS IP Address Cancel
-                var input = $("input", node);
-                $("button", node).prop("disabled", false);
-                input.val(input.prop("oriVal"));
-                if (input.prop("oriVal") == "") {
-                    node[1].remove();
-                } else {
-                    toggleNWGlobalsEdit(node, false);
-                }
-            });
-            return tempNode;
-        };
-        var addDnsItem = function(dnsVal) {
-            return addGlobalItem("gingerDNS", dnsVal, function(item, postSave) {
-                if (!($("input", item).val().trim() == "" && $("input", item).prop("oriVal").trim() == "")) {
-                    var nwGol = {
-                        nameservers: []
-                    };
-                    $("input", item).each(function() {
-                        if ($(this).val().trim() != "") {
-                            nwGol.nameservers.push($(this).val());
-                        }
-                    });
-                    if (nwGol.nameservers.length == 0) {
-                        delete nwGol.nameservers;
-                    }
-                    ginger.updateNetworkGlobals(nwGol, function() {
-                        postSave(item);
-                    });
-                }
-            });
-        };
-        $("#gingerDnsAdd").button({
-            text: false
-        }).click(function() {
-            var item = addDnsItem("");
-            $(".cancel", item).removeClass("hidden");
-        });
-        for (var i = 0; i < data.nameservers.length; i++) {
-            addDnsItem(data.nameservers[i]);
-        }
-        addGlobalItem("gingerGateway", data.gateway ? data.gateway : "", function(item, postSave) {
-            var gateway = $("input", item).val();
-            if (gateway.trim() != "") {
-                ginger.updateNetworkGlobals({
-                    gateway: gateway
-                }, function() {
-                    ginger.confirmNetworkUpdate(function() {
-                        postSave(item);
-                    });
-                });
-            }
-        });
-    });
-};
-
 ginger.initPowerMgmt = function() {
     var selectedClass = "pwr-activated";
     var toSelectClass = "pwr-unselected";
@@ -437,8 +258,8 @@ ginger.initPowerMgmt = function() {
 
     $(".actBtn", "#gingerPowerMgmt").on("click", function(event) {
         $(".actBtn", "#gingerPowerMgmt").prop('disabled', true);
-        var currentSelected = $('.' + selectedClass, $(".body", "#gingerPowerMgmt"));
-        var toBeSelected = $('.' + onSelectClass, $(".body", "#gingerPowerMgmt"));
+        var currentSelected = $('.' + selectedClass, $(".pw-opt", "#gingerPowerMgmt"));
+        var toBeSelected = $('.' + onSelectClass, $(".pw-opt", "#gingerPowerMgmt"));
         var optName = $(":last-child", toBeSelected.parent()).html();
         $("#progressIndicator", ".ginger .host-admin").addClass("wok-loading-icon");
         $(".actBtn", "#gingerPowerMgmt").prop('disabled', true);
@@ -472,35 +293,6 @@ ginger.initPowerMgmt = function() {
                     $(".actBtn", "#gingerPowerMgmt").prop('disabled', true);
                 }
             });
-        }
-    });
-};
-
-ginger.initSANAdapter = function() {
-    ginger.getSANAdapters(function(data) {
-        var temStr = "<span class='item'>{value}</span>";
-        for (var i = 0; i < data.length; i++) {
-            $(".wok-datagrid-row", $(".name", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].name
-            }));
-            $(".wok-datagrid-row", $(".wwpn", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].wwpn
-            }));
-            $(".wok-datagrid-row", $(".wwnn", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].wwnn
-            }));
-            $(".wok-datagrid-row", $(".state", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].state
-            }));
-            $(".wok-datagrid-row", $(".port", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].vports_inuse + "/" + data[i].max_vports
-            }));
-            $(".wok-datagrid-row", $(".speed", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].speed
-            }));
-            $(".wok-datagrid-row", $(".symbolic", ".san-adapter")).append(wok.substitute(temStr, {
-                value: data[i].symbolic_name
-            }));
         }
     });
 };
@@ -710,7 +502,7 @@ ginger.initUserManagement = function() {
         });
         $(".modal-body .inputbox").keyup(function() {
             var sum = 0;
-            $(".modal-body .inputbox").each(function(index, data) {
+            $(".modal-body .inputbox").not("[name='userGroup']").each(function(index, data) {
                 if ($(data).val() === "") {
                     sum += 1;
                 }
@@ -737,9 +529,13 @@ ginger.initUserManagement = function() {
             var dataSubmit = {
                 name: userName,
                 password: userPasswd,
-                group: userGroup,
                 profile: userProfile
             };
+            if ($("#enableEditGroup").prop('checked')) {
+                dataSubmit['group'] = userGroup;
+            } else {
+                dataSubmit['group'] = userName;
+            }
             if (userPasswd === userConfirmPasswd) {
                 ginger.addUser(dataSubmit, function() {
                     $('#hostUserAdd').modal('hide');
@@ -844,14 +640,8 @@ ginger.initAdmin = function() {
                     case "backup":
                         ginger.initConfigBak();
                         break;
-                    case "network":
-                        ginger.initNetworkConfig();
-                        break;
                     case "powerprofiles":
                         ginger.initPowerMgmt();
-                        break;
-                    case "sanadapters":
-                        ginger.initSANAdapter();
                         break;
                     case "sensors":
                         ginger.initSensorsMonitor();

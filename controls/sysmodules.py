@@ -1,7 +1,7 @@
 #
 # Project Ginger
 #
-# Copyright IBM, Corp. 2014
+# Copyright IBM, Corp. 2015
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,30 +17,23 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
-from wok.control.base import AsyncResource, Resource
+from wok.control.base import Collection, Resource
 
 
-class Firmware(Resource):
-    def __init__(self, model, id=None):
-        super(Firmware, self).__init__(model, id)
-        self.role_key = "administration"
-        self.admin_methods = ['PUT', 'POST']
-        self.uri_fmt = "/firmware/%s"
-        self.update_params = ['path', 'overwrite-perm-ok']
-        self.commit = self.generate_action_handler('commit')
-        self.reject = self.generate_action_handler('reject')
-
-    @property
-    def data(self):
-        return self.info
+class SysModules(Collection):
+    def __init__(self, model):
+        super(SysModules, self).__init__(model)
+        self.role_key = 'adminstration'
+        self.admin_methods = ['GET', 'POST']
+        self.resource = SysModule
 
 
-class FirmwareProgress(AsyncResource):
-    def __init__(self, model, id=None):
-        super(FirmwareProgress, self).__init__(model, id)
+class SysModule(Resource):
+    def __init__(self, model, ident):
+        super(SysModule, self).__init__(model, ident)
         self.role_key = 'administration'
-        self.uri_fmt = "/fwprogress/%s"
-        self.admin_methods = ['GET']
+        self.admin_methods = ['GET', 'DELETE']
+        self.uri_fmt = "/sysmodules/%s"
 
     @property
     def data(self):

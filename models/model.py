@@ -26,7 +26,7 @@ from dasddevs import DASDdevsModel, DASDdevModel
 from dasdpartitions import DASDPartitionsModel, DASDPartitionModel
 from diskparts import PartitionsModel, PartitionModel
 from filesystem import FileSystemsModel, FileSystemModel
-from firmware import FirmwareModel
+from firmware import FirmwareModel, FirmwareProgressModel
 from ibm_sep import SepModel, SubscribersModel, SubscriptionModel
 from interfaces import InterfacesModel, InterfaceModel
 from log_volume import LogicalVolumesModel, LogicalVolumeModel
@@ -37,6 +37,7 @@ from sanadapters import SanAdapterModel, SanAdaptersModel
 from sensors import SensorsModel
 from storage_devs import StorageDevsModel
 from swaps import SwapsModel, SwapModel
+from sysmodules import SysModulesModel, SysModuleModel
 from users import UsersModel, UserModel
 from vol_group import VolumeGroupsModel, VolumeGroupModel
 
@@ -67,7 +68,8 @@ class GingerModel(BaseModel):
         upgrade_objectstore_schema(objstore_loc, 'version')
 
         sub_models = []
-        firmware = FirmwareModel()
+        firmware = FirmwareModel(objstore=self._objstore)
+        firmwareprogress = FirmwareProgressModel(objstore=self._objstore)
         powerprofiles = PowerProfilesModel()
         powerprofile = PowerProfileModel()
         users = UsersModel()
@@ -95,6 +97,8 @@ class GingerModel(BaseModel):
         san_adapter = SanAdapterModel()
         swaps = SwapsModel(objstore=self._objstore)
         swap = SwapModel()
+        sysmodules = SysModulesModel()
+        sysmodule = SysModuleModel()
         sensors = SensorsModel()
         stgdevs = StorageDevsModel()
         ibm_sep = SepModel()
@@ -108,12 +112,13 @@ class GingerModel(BaseModel):
         features = [firmware, swaps, backup, network, powerprofiles,
                     san_adapters, sensors, ibm_sep, users, filesystems,
                     dasddevs, dasdpartitions, partitions, physical_vols,
-                    vol_groups, log_volumes, stgdevs]
+                    vol_groups, log_volumes, stgdevs, firmwareprogress,
+                    sysmodules]
         capabilities = CapabilitiesModel(features)
 
         sub_models = [
             backup, archives, archive,
-            firmware,
+            firmware, firmwareprogress,
             interfaces, interface,
             cfginterface, cfginterfaces,
             dasddevs, dasddev,
@@ -128,6 +133,7 @@ class GingerModel(BaseModel):
             san_adapters, san_adapter,
             sensors, stgdevs,
             swaps, swap,
+            sysmodules, sysmodule,
             vol_groups, vol_group,
             ibm_sep, subscription, subscriber,
             capabilities]
