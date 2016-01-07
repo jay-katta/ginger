@@ -31,12 +31,12 @@ size: 20M
 lvname: lvol0
 
 [Swaps]
-file_loc: /dev/dm-1 
+file_loc: /dev/dm-6
 type: device
 size: 10M
 
 [VG]
 vgname: testvg
-pvpaths: /dev/mapper/36005076802810d5048000000000029aa
-add_PVs: /dev/mapper/36005076802810d5048000000000029ab
+pvpaths: /dev/mapper/36005076802810d5048000000000029af
+add_PVs: /dev/mapper/36005076802810d5048000000000029b2
  
