@@ -182,7 +182,12 @@ class CfginterfacesModel(object):
         self.validate_info_for_vlan(params)
         self.validate_vlan_driver()
         vlanid = str(params[BASIC_INFO][VLANINFO][VLANID])
-        name = "vlan" + vlanid.zfill(4)
+        if platform.machine() == ARCH_S390:
+            name = params[BASIC_INFO][VLANINFO][PHYSDEV].replace("ccw", "").\
+                       replace(".", "") + "." + vlanid.zfill(4)
+        else:
+            name = params[BASIC_INFO][VLANINFO][PHYSDEV] + "." + \
+                   vlanid.zfill(4)
         params[BASIC_INFO][NAME] = name
         params[BASIC_INFO][DEVICE] = name
         parent_iface = params[BASIC_INFO][VLANINFO][PHYSDEV]
@@ -266,6 +271,9 @@ class CfginterfacesModel(object):
         if SLAVES not in cfgdata[BASIC_INFO][BONDINFO]:
             wok_log.error('Slave info is missing')
             raise MissingParameter("GINNET0036E")
+
+    def is_feature_available(self):
+        return os.path.isdir(os.sep + network_configpath)
 
 
 class CfginterfaceModel(object):
@@ -482,6 +490,11 @@ class CfginterfaceModel(object):
                 routes = self.get_routes_map(cfgmap[NAME], 4)
             if len(routes) > 0:
                 info[IPV4_ID][ROUTES] = routes
+            # Fix ginger issue #110
+            if len(info[IPV4_ID]) > 0:
+                info[IPV4_ID][IPV4INIT] = CONST_YES
+            else:
+                info[IPV4_ID][IPV4INIT] = CONST_NO
         wok_log.debug('End get_ipv4_info')
         return info
 
@@ -722,7 +735,8 @@ class CfginterfaceModel(object):
                 if params[IPV4_ID][BOOTPROTO] == DHCP:
                     # do dhcp stuff
                     cfgmap[BOOTPROTO] = DHCP
-                    if DEFROUTE in params[IPV4_ID][DEFROUTE]:
+                    # Fix ginger issue #112
+                    if DEFROUTE in params[IPV4_ID]:
                         cfgmap[DEFROUTE] = params[IPV4_ID][DEFROUTE]
                 elif params[IPV4_ID][BOOTPROTO] == MANUAL:
                     # do manual stuff
@@ -730,7 +744,8 @@ class CfginterfaceModel(object):
                     if DEFROUTE in params[IPV4_ID]:
                         cfgmap[DEFROUTE] = params[IPV4_ID][DEFROUTE]
                     self.assign_ipv4_address(cfgmap, params[IPV4_ID])
-                elif params[BOOTPROTO] == AUTOIP:
+                    # Fix ginger issue #111
+                elif params[IPV4_ID][BOOTPROTO] == AUTOIP:
                     # do auto ip stuff
                     cfgmap[BOOTPROTO] = AUTOIP
             else:
@@ -757,7 +772,7 @@ class CfginterfaceModel(object):
 
     def update_ipv4(self, cfgmap, params):
         if IPV4INIT in params[IPV4_ID] and params[IPV4_ID][IPV4INIT] == \
-                'yes':
+                CONST_YES:
             if IPV4_FAILURE_FATAL in params[IPV4_ID]:
                 cfgmap[IPV4_FAILURE_FATAL] = \
                     params[IPV4_ID][IPV4_FAILURE_FATAL]
@@ -770,6 +785,10 @@ class CfginterfaceModel(object):
             if ROUTES in params[IPV4_ID]:
                 self.write_cfgroutes(params[IPV4_ID][ROUTES],
                                      params[BASIC_INFO][DEVICE], 4)
+                # Fix ginger issue #109
+        elif IPV4INIT in params[IPV4_ID] and params[IPV4_ID][IPV4INIT] == \
+                CONST_NO:
+            wok_log.info(("IPV4INIT value is set to no"))
         else:
             wok_log.error(("IPV4INIT value is mandatory"))
             raise MissingParameter('GINNET0026E')
@@ -812,6 +831,7 @@ class CfginterfaceModel(object):
         """
         if IPV6INIT in params[IPV6_ID] and params[IPV6_ID][IPV6INIT] == \
                 'yes':
+            cfgmap[IPV6INIT] = params[IPV6_ID][IPV6INIT]
             if IPV6_FAILURE_FATAL in params[IPV6_ID]:
                 cfgmap[IPV6_FAILURE_FATAL] = \
                     params[IPV6_ID][IPV6_FAILURE_FATAL]
@@ -824,6 +844,10 @@ class CfginterfaceModel(object):
             if ROUTES in params[IPV6_ID]:
                 self.write_cfgroutes(params[IPV6_ID][ROUTES],
                                      params[BASIC_INFO][DEVICE], 6)
+                # Fix ginger issue #42
+        elif IPV6INIT in params[IPV6_ID] and params[IPV6_ID][IPV6INIT] == \
+                'no':
+            cfgmap[IPV6INIT] = params[IPV6_ID][IPV6INIT]
         else:
             wok_log.error(("IPV6INIT value is mandatory"))
             raise MissingParameter('GINNET0027E')
