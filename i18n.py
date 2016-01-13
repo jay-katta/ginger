@@ -202,7 +202,7 @@ messages = {
 
     "GINPART00001E": _("Fetching list of partitions failed"),
     "GINPART00002E": _("Create partition failed"),
-    "GINPART00003E": _("lookup method of partition failed"),
+    "GINPART00003E": _("Error retrieving information of partition %(name)s : %(err)s"),
     "GINPART00004E": _("Partition already mounted"),
     "GINPART00005E": _("Format partition failed"),
     "GINPART00006E": _("Change type for partition failed"),
@@ -212,6 +212,8 @@ messages = {
     "GINPART00011E": _("fdisk command failed"),
     "GINPART00012E": _("mkfs command failed"),
     "GINPART00013E": _("No partitions found"),
+    "GINPART00014E": _("Partition %(name)s not found."),
+
 
     "GINPV00001E": _("Required pv_name parameter"),
     "GINPV00002E": _("Failed to create PV"),
@@ -219,9 +221,12 @@ messages = {
     "GINPV00004E": _("Failed to fetch PV details"),
     "GINPV00005E": _("Failed to delete PV"),
     "GINPV00006E": _("pvs command failed"),
-    "GINPV00007E": _("pvdisplay command failed"),
+    "GINPV00007E": _("Unable to get information of device %(dev)s, error: %(err)s"),
     "GINPV00008E": _("pvcreate command failed"),
-    "GINPV00009E": _("pvremove command failed"),
+    "GINPV00009E": _("Remove failed: error: %(err)s"),
+    "GINPV00010E": _("Remove failed: device %(dev)s not found."),
+    "GINPV00011E": _("Unable to find device %(dev)s ."),
+
 
     "GINVG00001E": _("Failed to create VG"),
     "GINVG00002E": _("Failed to list VGs"),

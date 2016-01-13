@@ -30,16 +30,25 @@ ginger.initBakDialog = function() {
             $(".delete", pathItem).on("click", function() {
                 if (pathItem.parent().children().length === 1) {
                     $("input", pathItem).prop("value", null);
-                    $("input", pathItem).removeClass("invalid-field");
+                    $("input", pathItem).toggleClass("invalid-field", $(this).val().trim() === "");
                 } else {
                     pathItem.remove();
                 }
-                setBtnState();
+                checkFields();
             });
             $("input", pathItem).on("keyup", function() {
-                $(this).toggleClass("invalid-field", !(/(^\/.*)$/.test($(this).val()) || $(this).val().trim() === ""));
+                if (pathItem.parent().prop('id') !== 'includeBox') {
+                    return;
+                }
+                $(this).toggleClass("invalid-field", $(this).val().trim() === "");
                 setBtnState();
             });
+        };
+        var checkFields = function() {
+            $("#includeBox .path-item input").each(function(idx, elm) {
+                $(this).toggleClass("invalid-field", $(this).val().trim() === "");
+            });
+            setBtnState();
         };
         $(".add").on("click", function(e) {
             e.preventDefault();
@@ -56,11 +65,13 @@ ginger.initBakDialog = function() {
                     $("#excludeBox").append(pathNode);
                 }
             }
+            checkFields();
             attachEvent($(pathNode));
         });
 
         $("#newBakFormBtn").on("click", function(e) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             var content = {
                 description: $("#description-textbox", "#newBakDialog").val().trim(),
                 include: [],
@@ -86,7 +97,6 @@ ginger.initBakDialog = function() {
             $("body button").css("cursor", "wait");
             ginger.createBackupArchive(content, function() {
                 $('#newBakDialog').modal('hide');
-                $("#bakGridBody").empty();
                 ginger.setupBakGrid();
             }, function(result) {
                 $("body").css('cursor', 'default');
@@ -120,6 +130,7 @@ ginger.initBakDialog = function() {
         $("body button").prop("disabled", false);
         $("body input").css("cursor", "text");
         $("body button").css("cursor", "pointer");
+        $("#newBakFormBtn").prop("disabled", true);
     };
 };
 
@@ -173,8 +184,8 @@ ginger.initBatDelDialog = function() {
 };
 
 ginger.setupBakGrid = function() {
-    $(".body", "#bakGridBody").remove();
     ginger.listBackupArchives(function(data) {
+        $("#bakGridBody").empty();
         for (var i = 0; i < data.length; i++) {
             data[i].timestamp = new Date(data[i].timestamp * 1000).toLocaleString();
             data[i].filename = data[i].file.split('/');
@@ -241,7 +252,6 @@ ginger.initConfigBak = function() {
     $("#newDefaultBakBtn").on("click", function(event) {
         event.preventDefault();
         ginger.createBackupArchive({}, function() {
-            $("#bakGridBody").empty();
             ginger.setupBakGrid();
         })
     });
@@ -621,9 +631,33 @@ ginger.initFirmware = function() {
                 $("#gingerFWUpdateMess").css("display", "inline-block");
                 $("#gingerPackPathSub").prop('disabled', true);
                 $("#gingerPackPath").prop("disabled", true);
+                startFwProgress();
             });
         }, null);
     });
+    var progressAreaID = 'fwprogress-textarea';
+    var reloadProgressArea = function(result) {
+        var progressArea = $('#' + progressAreaID)[0];
+        $(progressArea).text(result['message']);
+        var scrollTop = $(progressArea).prop('scrollHeight');
+        $(progressArea).prop('scrollTop', scrollTop);
+    };
+    var startFwProgress = function() {
+        var progressArea = $('#' + progressAreaID)[0];
+        $('#fwprogress-container').removeClass('hidden');
+        $(progressArea).text('');
+        !wok.isElementInViewport(progressArea) &&
+            progressArea.scrollIntoView();
+
+        ginger.fwProgress(function(result) {
+            reloadProgressArea(result);
+            wok.topic('ginger/').publish({
+                result: result
+            });
+        }, function(error) {
+            wok.message.error(error.responseJSON.reason);
+        }, reloadProgressArea);
+    };
 };
 
 ginger.initAdmin = function() {
