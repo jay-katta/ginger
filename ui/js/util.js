@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp, 2015
+ * Copyright IBM Corp, 2015-2016
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,8 +37,8 @@ ginger.getFirmware = function(suc, err){
 
 ginger.updateFirmware = function(content, suc, err){
     $.ajax({
-        url : "plugins/ginger/firmware",
-        type : 'PUT',
+        url : "plugins/ginger/firmware/upgrade",
+        type : 'POST',
         contentType : 'application/json',
         dataType : 'json',
         data : JSON.stringify(content),

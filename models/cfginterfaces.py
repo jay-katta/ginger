@@ -90,6 +90,9 @@ BONDING_OPTS_LIST = ["ad_select", "arp_interval", "arp_ip_target",
                      "primary_reselect", "resend_igmp", "updelay",
                      "use_carrier", "xmit_hash_policy"]
 
+STATE_DOWN = "down"
+CFGMAP_QUOTES = ["BONDING_OPTS"]
+
 # ipv4 parameters
 IPV4_ID = "IPV4_INFO"
 BOOTPROTO = 'BOOTPROTO'
@@ -154,10 +157,15 @@ def get_bond_vlan_interfaces():
     listout = parser.match(pattern)
     for input in listout:
         interface_type = parser.get(input)
+        # Fix for ginger issue #70
+        interface_type = trim_quotes(interface_type)
         if interface_type in [IFACE_BOND, IFACE_VLAN]:
             cfg_file = input.rsplit('/', 1)[0]
             try:
-                nics.append(parser.get(cfg_file + '/DEVICE'))
+                cfg_device = parser.get(cfg_file + '/DEVICE')
+                # Fix for ginger issue #70
+                cfg_device = trim_quotes(cfg_device)
+                nics.append(cfg_device)
             except Exception, e:
                 wok_log.warn("no device name found,skipping", e)
     return nics
@@ -203,7 +211,10 @@ def getValue(iface, key):
     if is_cfgfileexist(iface):
         file = network_configpath + ifcfg_filename_format % iface
         if token_exist(file, str(key)):
-            return str(parser.get(file + "/" + str(key)))
+            key_val = parser.get(file + "/" + str(key))
+            # Fix for ginger issue #70
+            key_val = trim_quotes(key_val)
+            return str(key_val)
     else:
         return ""
 
@@ -222,6 +233,20 @@ def token_exist(ifcfg_file, key):
         return True
     else:
         return False
+
+
+# Fix for ginger issue #70
+def trim_quotes(param):
+    """
+       The function checks for single and double
+       quotes in the param and trims the same
+       is available and returns the trimmed
+       param.
+    """
+    if (param[0] == param[-1]) \
+       and param.startswith(("'", '"')):
+        param = param[1:-1]
+    return param
 
 
 class CfginterfacesModel(object):
@@ -266,11 +291,13 @@ class CfginterfacesModel(object):
         self.validate_vlan_driver()
         vlanid = str(params[BASIC_INFO][VLANINFO][VLANID])
         if platform.machine() == ARCH_S390:
-            name = params[BASIC_INFO][VLANINFO][PHYSDEV].replace("ccw", ""). \
-                       replace(".", "") + "." + vlanid.zfill(4)
+            name = \
+                params[BASIC_INFO][VLANINFO][PHYSDEV].replace(
+                    "ccw", "").replace(".", "") + "." + vlanid.zfill(4)
         else:
-            name = params[BASIC_INFO][VLANINFO][PHYSDEV] + "." + \
-                   vlanid.zfill(4)
+            name = \
+                params[BASIC_INFO][VLANINFO][PHYSDEV]\
+                + "." + vlanid.zfill(4)
         params[BASIC_INFO][NAME] = name
         params[BASIC_INFO][DEVICE] = name
         parent_iface = params[BASIC_INFO][VLANINFO][PHYSDEV]
@@ -336,9 +363,17 @@ class CfginterfacesModel(object):
         self.validate_dict_bond_for_vlan(cfgdata)
         slave_list = cfgdata[BASIC_INFO][BONDINFO][SLAVES]
         if len(slave_list) != 0:
+            active_slave_found = True
             for slave in slave_list:
-                if netinfo.operstate(slave) != "up":
-                    raise OperationFailed("GINNET0047E")
+                # Fix ginger issue #144
+                if netinfo.operstate(slave) == STATE_DOWN:
+                    active_slave_found = False
+                else:
+                    active_slave_found = True
+                    wok_log.info("One active slave is found:" + slave)
+                    break
+            if (not active_slave_found):
+                raise OperationFailed("GINNET0047E")
         else:
             wok_log.error("Minimum one slave has to be given for the bond")
             raise OperationFailed("GINNET0037E")
@@ -465,7 +500,12 @@ class CfginterfaceModel(object):
                              'interface :' + interface_name)
                 return cfgmap
             for single in listout:
-                cfgmap[parser.label(single)] = parser.get(single)
+                # Fix for ginger issue #70
+                if parser.label(single) in CFGMAP_QUOTES:
+                    cfgmap[parser.label(single)] = parser.get(single)
+                labelVal = parser.get(single)
+                labelVal = trim_quotes(labelVal)
+                cfgmap[parser.label(single)] = labelVal
         except Exception, e:
             # typical error message e='Error during match procedure!',
             # u'etc/sysconfig/network-scripts/ifcfg-virbr0
@@ -766,19 +806,31 @@ class CfginterfaceModel(object):
                 else:
                     wok_log.error(("No ip address provided"))
                     raise MissingParameter('GINNET0020E')
-                if NETMASK in ipaddrinfo:
-                    self.validate_ipv4_address(ipaddrinfo[NETMASK])
-                    cfgmap[PREFIX + postfix] = self.get_ipv4_prefix(
-                        ipaddrinfo[NETMASK])
-                elif PREFIX in ipaddrinfo:
-                    cfgmap[PREFIX + postfix] = ipaddrinfo[PREFIX]
+                # Fix for issue 169
+                if PREFIX in ipaddrinfo:
+                    if (type(ipaddrinfo[PREFIX]) == int):
+                        if ipaddrinfo[PREFIX] >= 1 and \
+                                ipaddrinfo[PREFIX] <= 32:
+                            cfgmap[PREFIX + postfix] = ipaddrinfo[PREFIX]
+                        else:
+                            raise InvalidParameter('GINNET0062E', {
+                                'PREFIX': ipaddrinfo[PREFIX]})
+                    else:
+                        self.validate_ipv4_address(ipaddrinfo[PREFIX])
+                        cfgmap[PREFIX + postfix] = self.get_ipv4_prefix(
+                            ipaddrinfo[PREFIX])
                 else:
-                    wok_log.error(("No netmask or prefix provided"))
+                    wok_log.error("No prefix provided for IPv4 addresses.")
                     raise MissingParameter('GINNET0021E')
                 if GATEWAY in ipaddrinfo:
                     self.validate_ipv4_address(ipaddrinfo[GATEWAY])
                     cfgmap[GATEWAY + postfix] = ipaddrinfo[GATEWAY]
                 index += 1
+        # Fix for issue 169
+        else:
+            wok_log.error(("IPv4 adresses are mandatory \
+                 when bootproto is none."))
+            raise MissingParameter('GINNET0061E')
         return cfgmap
 
     def update_basic_info(self, cfgmap, params):
@@ -985,7 +1037,7 @@ class CfginterfaceModel(object):
 
     def validateipinfo(self, ipaddrinfo):
         """
-        validae ipv6 addresses info provided by user
+        validate ipv6 addresses info provided by user
         :param ipaddrinfo:
         :return:
         """
@@ -1099,7 +1151,7 @@ class CfginterfaceModel(object):
                             bond_opt_value = \
                                 bond_opt_value + bond_opt_key + "=" + \
                                 str(bondinfo[BONDING_OPTS][
-                                        bond_opt_key]) + " "
+                                    bond_opt_key]) + " "
                         else:
                             values_as_str = map(str, value)
                             values_as_str = str(values_as_str)
