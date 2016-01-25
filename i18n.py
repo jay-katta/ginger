@@ -99,6 +99,7 @@ messages = {
                      "'%(error)s'."),
     "GINNET0061E": _("Missing IPV4 addresses information"),
     "GINNET0062E": _("The prefix value %(PREFIX)s is not in range 1-32"),
+    "GINNET0063E": _("Exception updating the interface settings"),
 
     "GINUSER0001E": _("Specify name, password, group and profile for the new "
                       "user."),
@@ -263,11 +264,11 @@ messages = {
     "GINDASD0001E": _("Error in executing 'lsdasd -l' command"),
     "GINDASD0002E": _("Error in executing 'lsdasd -l bus_id' command"),
     "GINDASD0003E": _("Parsing lsdasd output failed"),
-    "GINDASD0004E": _("Formatting of DASD device failed"),
+    "GINDASD0004E": _("Failed to format %(name)s. Either format currently going on or device not available for format. Please try after sometime."),
     "GINDASD0005E": _("Failed to retrieve list of DASD devices"),
     "GINDASD0006E": _("Failed to retrieve details of the specified DASD device"),
     "GINDASD0007E": _("Failed to find specified DASD device"),
-    "GINDASD0008E": _("Failed to format DASD device"),
+    "GINDASD0008E": _("Failed to format %(name)s. Either format currently going on or device not available for format"),
     "GINDASD0009E": _("Require DASD device name to be formatted"),
     "GINDASD0010E": _("Require block size for formatting DASD device"),
     "GINDASD0011E": _("Invalid bus ID, %(bus_id)s"),
