@@ -1,7 +1,7 @@
 #
 # Project Ginger
 #
-# Copyright IBM Corp, 2014
+# Copyright IBM Corp, 2014-2016
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,17 +17,20 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-controls_PYTHON = \
+models_PYTHON = \
 	__init__.py \
 	backup.py \
 	capabilities.py \
 	cfginterfaces.py \
 	dasddevs.py \
 	dasdpartitions.py \
+	dasd_utils.py \
 	diskparts.py \
 	firmware.py \
 	ibm_sep.py \
 	interfaces.py \
+	model.py \
+	netinfo.py \
 	network.py \
 	physical_vol.py \
 	powermanagement.py \
@@ -37,13 +40,15 @@ controls_PYTHON = \
 	sysmodules.py \
 	users.py \
 	swaps.py \
-	filesystems.py \
+	utils.py \
+	filesystem.py \
+	fs_utils.py \
 	vol_group.py \
-	log_volumes.py \
+	log_volume.py \
 	$(NULL)
 
-controlsdir = $(pythondir)/wok/plugins/ginger/controls
+modelsdir = $(pythondir)/wok/plugins/ginger/model
 
 CLEANFILES = \
-	$(controls_PYTHON:%.py=%.pyc) \
+	$(models_PYTHON:%.py=%.pyc) \
 	$(NULL)
