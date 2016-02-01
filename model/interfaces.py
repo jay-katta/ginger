@@ -81,6 +81,8 @@ class InterfaceModel(object):
                         'netmask': "",
                         'macaddr': ""}
                 return info
+            else:
+                raise ValueError('unknown interface: %s' % name)
         except ValueError:
             raise NotFoundError("GINNET0014E", {'name': name})
 
@@ -214,7 +216,7 @@ class InterfaceModel(object):
                              "activating an interface may not as expected.")
             else:
                 wok_log.info(
-                        'Successfully brought up the interface ' + ifacename)
+                    'Successfully brought up the interface ' + ifacename)
         wok_log.info('Activating an interface ' + ifacename)
         cmd_ifup = ['ifup', '%s' % ifacename]
         out, error, returncode = run_command(cmd_ifup)
@@ -263,7 +265,7 @@ class InterfaceModel(object):
                              "activating an interface may not as expected.")
             else:
                 wok_log.info(
-                        'Successfully brought down the interface ' + ifacename)
+                    'Successfully brought down the interface ' + ifacename)
 
     def wait_time(self, ifacename):
         timeout = 0

@@ -330,6 +330,16 @@ ginger.initFcpTapeGridData = function() {
   });
 };
 
+ginger.cleanModalDialog = function(){
+   $(document).ready(function(){
+      $('body').on('hidden.bs.modal', '.modal', function () {
+         $(this).removeData('bs.modal');
+         $("#" + $(this).attr("id") + " .modal-content").empty();
+         $("#" + $(this).attr("id") + " .modal-content").append("Loading...");
+      });
+   });
+}
+
 ginger.loadStorageActionButtons = function(){
   var addButton =[
     {
@@ -337,9 +347,12 @@ ginger.loadStorageActionButtons = function(){
         class: 'fa fa-plus-circle',
         label: 'Add FCP Device',
         onClick: function(event) {
-            wok.window.open('plugins/gingers390x/addFCPLuns.html');
+        $('#sd-add-FCP-button').attr('href','plugins/gingers390x/addFCPLuns.html');
+        $('#sd-add-FCP-button').attr('data-toggle','modal');
+        $('#sd-add-FCP-button').attr('data-target','#storage-AddFCP-modal');
+        ginger.cleanModalDialog();
         }
-    },
+     },
     {
         id:'sd-add-ECKD-button',
         class: 'fa fa-plus-circle',
@@ -558,7 +571,7 @@ ginger.loadStorageDeviceDetails = function(){
     },
    {
       "column-id": 'mpath_count',
-      "type": 'number',
+      "type": 'numeric',
       "width": "20%",
       "title": i18n['GINTITLE0019M']
     },

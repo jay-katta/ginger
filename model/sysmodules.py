@@ -75,9 +75,9 @@ sig_hashalgo=sha256\0
     modinfo_dict['aliases'] = []
     modinfo_dict['authors'] = []
     modinfo_dict['parms'] = {}
-    dict_attr_to_array = {
-       'alias': 'aliases', 'author': 'authors', 'parm': 'parms'
-    }
+    dict_attr_to_array = {'alias': 'aliases',
+                          'author': 'authors',
+                          'parm': 'parms'}
 
     lines = lines[1:]
     for line in lines:
@@ -197,7 +197,10 @@ class SysModuleModel(object):
             'desc': 'SR-IOV: Single Root I/O Virtualization',
             'parms': ['num_vfs', 'probe_vf']
         }
-        features_mod = {'mlx4-core': {'SR-IOV': mlx4_core_SRIOV}}
+        features_mod = {
+            'mlx4-core': {'SR-IOV': mlx4_core_SRIOV},
+            'mlx4_core': {'SR-IOV': mlx4_core_SRIOV}
+        }
         return features_mod
 
     def __init__(self):

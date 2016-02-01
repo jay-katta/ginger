@@ -1,7 +1,7 @@
 #
 # Project Ginger
 #
-# Copyright IBM, Corp. 2014
+# Copyright IBM, Corp. 2014-2016
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -21,8 +21,10 @@ import cherrypy
 from cherrypy.lib.static import serve_file
 
 from wok.control.base import Collection, Resource
+from wok.control.utils import UrlSubNode
 
 
+@UrlSubNode('backup', True)
 class Backup(Resource):
     def __init__(self, model):
         super(Backup, self).__init__(model)
@@ -35,6 +37,7 @@ class Backup(Resource):
         # In future we will add self.schedules
 
 
+@UrlSubNode('archives', True)
 class Archives(Collection):
     def __init__(self, model):
         super(Archives, self).__init__(model)
