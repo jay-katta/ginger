@@ -1,5 +1,5 @@
 [PV]
-pvname: /dev/mapper/36005076802810d5048000000000029ab 
+pvname: /dev/dasdb1
 
 [PARTITIONS]
 devname: /dev/sdc
@@ -10,12 +10,12 @@ fstype: ext4
 part_type_code: 82
 
 [DASDdevs]
-bus_id: 0.0.0224
+bus_id: 0.0.0400
 blk_size: 4096
 
 [DASDPartitions]
-dev_name: dasdh
-part_name: dasdh1
+dev_name: dasdl
+part_name: dasdl1
 size: 40
 
 [FILESYSTEM]
@@ -31,12 +31,12 @@ size: 20M
 lvname: lvol0
 
 [Swaps]
-file_loc: /dev/dm-6
+file_loc: /dev/dasdd1
 type: device
 size: 10M
 
 [VG]
 vgname: testvg
-pvpaths: /dev/mapper/36005076802810d5048000000000029af
-add_PVs: /dev/mapper/36005076802810d5048000000000029b2
+pvpaths: /dev/dasdb2
+add_PVs: /dev/dasdb3
  
