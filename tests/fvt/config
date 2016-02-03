@@ -14,8 +14,8 @@ bus_id: 0.0.0400
 blk_size: 4096
 
 [DASDPartitions]
-dev_name: dasdl
-part_name: dasdl1
+dev_name: dasds
+part_name: dasds1
 size: 40
 
 [FILESYSTEM]
