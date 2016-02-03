@@ -2,10 +2,10 @@
 pvname: /dev/dasdb1
 
 [PARTITIONS]
-devname: /dev/dasdj
+devname: /dev/sda
 part_size: 20M
-part_name: dasdj1
-format_part: dasdj1
+part_name: sda1
+format_part: 36005076802810d5048000000000029b2
 fstype: ext4
 part_type_code: 82
 
