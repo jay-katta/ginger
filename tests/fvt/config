@@ -1,5 +1,5 @@
 [PV]
-pvname: /dev/dasdb1
+pvname: /dev/mapper/36005076802810d5048000000000029b4
 
 [PARTITIONS]
 devname: /dev/sda
@@ -19,7 +19,7 @@ part_name: dasds1
 size: 40
 
 [FILESYSTEM]
-blk_dev: /dev/dm-4
+blk_dev: /dev/dm-1
 nfs_server: localhost
 nfs_share: /var/ftp/nfs
 mount_point: /testfolder
