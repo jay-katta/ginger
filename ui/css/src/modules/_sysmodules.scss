@@ -1,0 +1,427 @@
+//
+// Project Ginger
+//
+// Copyright IBM Corp, 2016
+//
+// Code derived from Project Kimchi
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+#host-sysmodules-root-container {
+    .accordion {
+        @include ginger-accordion();
+    }
+    .navbar-default.toolbar {
+        background-color: $hosts-color !important;
+    }
+}
+
+#sysmodules-content-area {
+    padding: 0;
+    list-style-type: none;
+    .li:nth-child(even) {
+        background-color: #fcfcfc;
+    }
+    .li:nth-child(odd) {
+        background-color: #fff;
+    }
+    .header,
+    .body {
+        > span,
+        > div {
+            padding: 6px 2px;
+            display: inline-block;
+            font-family: $font-family-sans-serif;
+        }
+    }
+    .header {
+        border-top: 0 none;
+        > span,
+        > div {
+            vertical-align: bottom;
+            height: 36px;
+            font-weight: 300;
+            font-size: 12.5pt;
+            line-height: 1.42857;
+            border-bottom: 0;
+            border-top: 0;
+        }
+    }
+    .body {
+        border-top: 1px solid #eee;
+        > span,
+        > div {
+            vertical-align: middle;
+            font-size: 11pt;
+            line-height: 2.42857;
+            font-weight: 400;
+        }
+    }
+    .btn-group {
+        margin-bottom: 20px;
+    }
+    .actBtn {
+        width: 115px;
+    }
+    .column-name {
+        width: 30%;
+    }
+    .column-depends {
+        width: 30%;
+    }
+    .column-details {
+        width: 12%;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .column-version {
+        width: 14%;
+    }
+    .column-actions {
+        width: 14%;
+    }
+    .sysmodules-details {
+        width: 100%;
+        padding: 22px;
+        background: $table-bg-active;
+    }
+    .details-list {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        max-height: 285px;
+        min-height: 140px;
+        background: $table-bg;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        align-items: stretch;
+        align-content: stretch;
+
+        > span[class^=column-] {
+            display: block;
+            font-size: 15px;
+            float: left;
+            align-self: flex-start;
+            flex-grow: 1;
+        }
+
+        span[class^=header-] {
+            width: 100%;
+            display: block;
+            font-family: $font-family-base;
+            font-weight: 300;
+            font-size: 12.5pt;
+            border-bottom: none;
+            border-top: 0;
+            line-height: 1.42857;
+            height: 36px;
+            padding: 6px 12px;
+            text-transform: capitalize;
+        }
+
+        span[class^=body-] {
+            width: 100%;
+            display: block;
+        }
+
+        span[class^=row-] {
+            display: block;
+            width: 100%;
+            padding: 6px 12px;
+            font-weight: 600;
+            .col-value {
+              font-weight: 400;
+            }
+        }
+
+        span.column-filename {
+            order: 1;
+            width: 36%;
+        }
+
+        span.column-description {
+            order: 2;
+            width: 22.025%;
+        }
+
+        span.column-authors {
+            order: 3;
+            width: 17.80%;
+        }
+
+        span.column-license {
+            order: 4;
+        }
+
+        span.column-signer {
+            order: 5;
+        }
+
+        span.column-sig_key {
+            order: 6;
+            width: 36%;
+        }
+
+        span.column-sig_hashalgo {
+            order: 7;
+            width: 10.40%;
+        }
+
+        span.column-intree {
+            order: 8;
+            width: 10.40%;
+        }
+
+        span.column-srcversion {
+            order: 9;
+            width: 17.80%;
+        }
+
+        span.column-vermagic {
+            order: 10;
+        }
+
+        span.column-features {
+            order: 11;
+            width: 100%;
+        }
+
+        span.column-aliases {
+            order: 12;
+            width: 100%;
+        }
+
+        span.column-parms {
+            order: 13;
+            width: 100%;
+        }
+
+    }
+    .arrow-down,
+    .arrow-up {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        cursor: pointer;
+    }
+    .arrow-down:before {
+        content: "\f078";
+    }
+    .arrow-up:before {
+        content: "\f077";
+    }
+    .btn .fa-upload {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+}
+
+.sysmodules-modal {
+
+    .parms-fields {
+        position: relative;
+
+        #special-load-radio {
+            padding-bottom: 7px;
+            margin-bottom: 0;
+        }
+
+        #special-load-radio label {
+            font-size: 16px;
+            margin-bottom: 5;
+        }
+
+    }
+
+    div.special-load .alert,
+    div.special-load .alert[style] {
+        margin: 0 10px 10px;
+        display: block;
+    }
+
+    div.special-load .form-control-static,
+    div.special-load .col-md-6,
+    div.special-load .col-md-12 {
+        padding: 0 10px;
+    }
+
+    .special-load {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .form-control-static {
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 0;
+        padding-top: 0;
+        margin-bottom: 5px;
+    }
+
+    #parms-custom-load {
+        display: none;
+    }
+
+    span.twitter-typeahead .tt-menu,
+    span.twitter-typeahead .tt-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      display: none;
+      float: left;
+      min-width: 100%;
+      padding: 5px 0;
+      margin: 2px 0 0;
+      list-style: none;
+      font-size: 14px;
+      text-align: left;
+      background-color: $btn-default-bg;
+      border: 1px solid $btn-default-border;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+      background-clip: padding-box;
+    }
+    span.twitter-typeahead .tt-suggestion {
+      display: block;
+      padding: 3px 20px;
+      clear: both;
+      font-weight: normal;
+      line-height: 1.42857143;
+      color: $list-group-link-heading-color;
+      white-space: nowrap;
+    }
+    span.twitter-typeahead .tt-suggestion.tt-cursor,
+    span.twitter-typeahead .tt-suggestion:hover,
+    span.twitter-typeahead .tt-suggestion:focus {
+      color: $dropdown-link-hover-color;
+      text-decoration: none;
+      outline: 0;
+      background-color: $dropdown-link-hover-bg;
+    }
+    .input-group.input-group-lg span.twitter-typeahead .form-control {
+      height: 46px;
+      padding: 10px 16px;
+      font-size: 18px;
+      line-height: 1.3333333;
+      border-radius: 6px;
+    }
+    .input-group.input-group-sm span.twitter-typeahead .form-control {
+      height: 30px;
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      border-radius: 3px;
+    }
+    span.twitter-typeahead {
+      width: 100%;
+    }
+    .input-group span.twitter-typeahead {
+      display: block !important;
+      height: 34px;
+    }
+    .input-group span.twitter-typeahead .tt-menu,
+    .input-group span.twitter-typeahead .tt-dropdown-menu {
+      top: 32px !important;
+    }
+    .input-group span.twitter-typeahead:not(:first-child):not(:last-child) .form-control {
+      border-radius: 0;
+    }
+    .input-group span.twitter-typeahead:first-child .form-control {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .input-group span.twitter-typeahead:last-child .form-control {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+    .input-group.input-group-sm span.twitter-typeahead {
+      height: 30px;
+    }
+    .input-group.input-group-sm span.twitter-typeahead .tt-menu,
+    .input-group.input-group-sm span.twitter-typeahead .tt-dropdown-menu {
+      top: 30px !important;
+    }
+    .input-group.input-group-lg span.twitter-typeahead {
+      height: 46px;
+    }
+    .input-group.input-group-lg span.twitter-typeahead .tt-menu,
+    .input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
+      top: 46px !important;
+    }
+
+    .form-control.tt-input {
+        font-weight: 600;
+        color: $gray-base !important;
+    }
+
+    .form-control.tt-hint {
+        font-weight: 600;
+        color: $gray-light !important;
+    }
+
+    div#parameters {
+        display: none;
+    }
+
+    div#parms-grid {
+
+        .wok-datagrid-body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 175px;
+        }
+
+        .wok-datagrid-body > .wok-datagrid-row > span {
+            font-size: 10pt;
+            padding: 2px;
+        }
+
+        span.column-name {
+            width: 190px;
+        }
+
+        span.column-full {
+            width: 100%;
+        }
+
+        .wok-datagrid-header {
+            border-bottom: 1px solid $table-border-color;
+        }
+
+        .wok-datagrid-body > .wok-datagrid-row > span.column-name {
+            font-weight: 600;
+        }
+
+        .wok-datagrid-body > .wok-datagrid-row > span.column-description {
+            width: 539px;
+        }
+
+        > .wok-datagrid-body > .wok-datagrid-row:first-child {
+            border-top: 0;
+        }
+
+    }
+
+}

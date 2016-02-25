@@ -754,3 +754,56 @@ ginger.isValidIPv6 = function(ipv6addr) {
 ginger.isValidIPv6Prefix = function(prefix) {
   return prefix >= 1 && prefix <= 128;
 }
+
+ginger.getSysmodules = function(suc, err) {
+     wok.requestJSON({
+        url: 'plugins/ginger/sysmodules',
+        type: 'GET',
+        contentType: 'application/json',
+        dataType: 'json',
+        success: suc,
+        error : err || function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+     });
+ }
+
+ginger.getSysmodule = function(module, suc, err) {
+     wok.requestJSON({
+        url: 'plugins/ginger/sysmodules/' + encodeURIComponent(module),
+        type: 'GET',
+        contentType: 'application/json',
+        dataType: 'json',
+        success: suc,
+        error: err || function(data) {
+             wok.message.error(data.responseJSON.reason);
+         }
+     });
+ }
+
+ ginger.loadSysmodule = function(parms, suc, err){
+    $.ajax({
+        url : "plugins/ginger/sysmodules",
+        type : 'POST',
+        contentType : 'application/json',
+        dataType : 'json',
+        data : JSON.stringify(parms),
+        success: suc,
+        error: err || function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+    });
+};
+
+ginger.removeSysmodule = function(moduleId, suc, err) {
+    wok.requestJSON({
+        url: 'plugins/ginger/sysmodules/' + moduleId,
+        type: 'DELETE',
+        contentType: 'application/json',
+        dataType: 'json',
+        success: suc,
+        error : err || function(data) {
+            wok.message.error(data.responseJSON.reason);
+        }
+     });
+}
