@@ -21,6 +21,7 @@ ginger.hostarch = null;
 ginger.selectedInterface = null;
 
 trackingTasks = [];
+s390xtrackingTasks = [];
 ginger.getFirmware = function(suc, err){
     wok.requestJSON({
         url : 'plugins/ginger/firmware',
@@ -211,6 +212,24 @@ ginger.deleteInterface = function(name, suc, err) {
   });
 };
 
+ginger.deleteEthernetInterface = function(name, suc, err, progress) {
+  var name = encodeURIComponent(name);
+  var onResponse = function(data) {
+      taskID = data['id'];
+      ginger.tracks390xTask(taskID, suc, err, progress);
+  };
+  wok.requestJSON({
+      url : 'plugins/gingers390x/nwdevices/' + name + '/unconfigure',
+      type : 'POST',
+      contentType : 'application/json',
+      dataType : 'json',
+      success : onResponse,
+      error : err || function(data) {
+          wok.message.error(data.responseJSON.reason);
+      }
+  });
+};
+
 ginger.getNetworkGlobals = function(suc, err){
     wok.requestJSON({
         url : 'plugins/ginger/network',
@@ -275,16 +294,32 @@ ginger.validateHostName = function(hostname) {
   return hostNameRegex.test(hostname);
 };
 
-ginger.validateMask = function(mask){
-    if(mask.indexOf('.')!=-1){
-        var secs = mask.split('.');
+ginger.validateMask = function(mask) {
+  if (mask.indexOf('.') != -1) {
+    var secs = mask.split('.');
+    if (secs.length == 4) {
+      // Check first if the given input is following valid IP format.
+      if (ginger.validateIp(mask)) {
+        // Validate the netmask format
         var binMask = "";
-        for(var i=0; i<secs.length; i++)
-            binMask += parseInt(secs[i]).toString(2);
-        return /^1+0+$/.test(binMask);
-    }else{
-        return mask >= 1 && mask <= 32;
+        for (var i = 0; i < secs.length; i++) {
+          var binNumber = parseInt(secs[i]).toString(2);
+          if (binNumber.length != 8) {
+            for (var bits = binNumber.length; bits < 8; bits++) {
+              // Binary number should be of 8 digits to validate netmask properly
+              binNumber = '0' + binNumber;
+            }
+          }
+          binMask += binNumber;
+        }
+        return /^1+0*$/.test(binMask);
+      }
+    } else {
+      return false;
     }
+  } else {
+    return mask >= 1 && mask <= 32;
+  }
 };
 
 ginger.getPowerProfiles = function(suc, err){
@@ -650,6 +685,42 @@ ginger.trackTask = function(taskID, suc, err, progress) {
         trackingTasks.push(taskID);
 }
 
+ginger.gets390xTask = function(taskId, suc, err) {
+    wok.requestJSON({
+      url: 'plugins/gingers390x/tasks/' + encodeURIComponent(taskId),
+      type: 'GET',
+      contentType: 'application/json',
+      dataType: 'json',
+      success: suc,
+      error: err
+  });
+}
+ginger.tracks390xTask = function(taskID, suc, err, progress) {
+    var onTaskResponse = function(result) {
+        var taskStatus = result['status'];
+        switch(taskStatus) {
+        case 'running':
+            progress && progress(result);
+            setTimeout(function() {
+                ginger.tracks390xTask(taskID, suc, err, progress);
+            }, 2000);
+            break;
+        case 'finished':
+            suc && suc(result);
+            break;
+        case 'failed':
+            err && err(result);
+            break;
+        default:
+            break;
+        }
+    };
+
+    ginger.gets390xTask(taskID, onTaskResponse, err);
+    if(s390xtrackingTasks.indexOf(taskID) < 0)
+        s390xtrackingTasks.push(taskID);
+}
+
 ginger.trackdevices = function(trackDevicelist,removeItem) {
     "use strict";
     trackDevicelist = jQuery.grep(trackDevicelist, function(value) {
@@ -806,4 +877,17 @@ ginger.removeSysmodule = function(moduleId, suc, err) {
             wok.message.error(data.responseJSON.reason);
         }
      });
+}
+
+ginger.getLunsScanStatus = function(suc, err) {
+  wok.requestJSON({
+    url: 'plugins/gingers390x/lunscan',
+    type: 'GET',
+    contentType: 'application/json',
+    dataType: 'json',
+    success: suc,
+    error: function(data) {
+      wok.message.error(data.responseJSON.reason);
+    }
+  });
 }
