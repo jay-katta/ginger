@@ -200,7 +200,7 @@ messages = {
     "GINSP00002E": _("Type required for creating a swap device."),
     "GINSP00003E": _("Size is mandatory while creating file type swap device."),
     "GINSP00004E": _("Incorrect swap type, only 'device' and 'file' are allowed."),
-    "GINSP00005E": _("Type required for creating a swap device."),
+    "GINSP00005E": _("Error creating a swap device. %(err)s "),
     "GINSP00006E": _("Error deleting a swap file."),
     "GINSP00007E": _("Error deleting a swap device. %(err)s"),
     "GINSP00008E": _("Swap device not found. %(name)s"),
@@ -215,6 +215,7 @@ messages = {
     "GINSP00017E": _("No partitions found for disk . %(disk)s"),
     "GINSP00018E": _("Single swap device %(swap)s not found."),
     "GINSP00019E": _("Unable to get single swap device info: directory /proc/swaps not found."),
+    "GINSP00020E": _("File already in use."),
 
     "GINPART00001E": _("Fetching list of partitions failed"),
     "GINPART00002E": _("Create partition failed"),
@@ -296,6 +297,15 @@ messages = {
     "GINSYSMOD00003E": _("Error fetching info of module %(module)s, reason: %(err)s"),
     "GINSYSMOD00004E": _("Error loading module %(module)s, reason: %(err)s"),
     "GINSYSMOD00005E": _("Error unloading module %(module)s, reason: %(err)s"),
+
+    "GINOVS00001E": _("Error executing OVS command. Please check if 'openvswitch' service is running."),
+    "GINOVS00002E": _("Error executing OVS command: %(err)s"),
+    "GINOVS00003E": _("Error creating OVS bridge %(name)s. OVS bridge already exists."),
+    "GINOVS00004E": _("Error retrieving OVS bridge %(name)s. OVS bridge does not exist."),
+    "GINOVS00005E": _("Error adding port %(port)s in bridge %(name)s. Port already exists."),
+    "GINOVS00006E": _("Unable to create bond with less than two interfaces."),
+    "GINOVS00007E": _("Bridge %(bridge)s does not have a bond named %(bond)s."),
+    "GINOVS00008E": _("Interface %(iface)s not found in openvswitch database."),
 
     "GINSD00001E": _("Error executing 'ls -l /dev/disk/by-id, %(err)s"),
     "GINSD00002E": _("Error executing 'lsblk -Po, %(err)s"),
