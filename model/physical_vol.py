@@ -20,10 +20,10 @@
 import utils
 
 from diskparts import PartitionModel
-from wok.exception import MissingParameter,\
-    NotFoundError, OperationFailed
+from wok.exception import MissingParameter, NotFoundError
+from wok.exception import InvalidParameter, OperationFailed
 from wok.model.tasks import TaskModel
-from wok.utils import add_task, wok_log
+from wok.utils import add_task
 
 
 class PhysicalVolumesModel(object):
@@ -58,14 +58,14 @@ class PhysicalVolumesModel(object):
             part_name = pvname.split('/')[-1]
             dev_type = part.lookup(part_name)
             if dev_type['type'] == 'part':
-                type = '8e'   # hex value for type Linux LVM
-                part.change_type(part_name, type)
+                if 'dasd' not in dev_type['name']:
+                    type = '8e'   # hex value for type Linux LVM
+                    part.change_type(part_name, type)
             utils._create_pv(pvname)
 
         except OperationFailed:
-            wok_log.error("PV create failed")
             raise OperationFailed("GINPV00002E",
-                                  {'pvname': pvname})
+                                  {'name': pvname})
 
         cb('OK', True)
 
@@ -74,7 +74,6 @@ class PhysicalVolumesModel(object):
         try:
             pv_names = utils._get_pv_devices()
         except OperationFailed as e:
-            wok_log.error("Unable to fetch list of PVs")
             raise NotFoundError("GINPV00003E",
                                 {'err': e.message})
 
@@ -94,12 +93,10 @@ class PhysicalVolumeModel(object):
             return utils._pvdisplay_out(name)
 
         except OperationFailed:
-            wok_log.error("Unable to fetch details of PV")
             raise NotFoundError("GINPV00004E", {'name': name})
 
     def delete(self, name):
         try:
             utils._remove_pv(name)
-        except OperationFailed:
-            wok_log.error("delete PV failed")
-            raise OperationFailed("GINPV00005E", {'name': name})
+        except OperationFailed as e:
+            raise InvalidParameter("GINPV00005E", {'err': e.message})

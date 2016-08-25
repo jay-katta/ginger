@@ -19,19 +19,46 @@
 
 from tests.fvt.fvt_base import TestBase
 import utils
+import time
 
 class TestFilesystems(TestBase):
     default_schema = {"type": "object",
                       "properties": {"use%": {"type": "string"},
                                      "used": {"type": "string"},
                                      "mounted_on": {"type": "string"},
-                                     "avail": {"type": "string"},
+                                     "avail": {"type": "number"},
                                      "filesystem": {"type": "string"},
                                      "type": {"type": "string"},
-                                     "size": {"type": "string"}
+                                     "size": {"type": "number"}
                                      }
                       }
     uri_filesystems = '/plugins/ginger/filesystems'
+
+    @classmethod
+    def setUpClass(self):
+        super(TestFilesystems, self).setUpClass()
+        self.logging.info('--> TestFilesystems.setUpClass()')
+        self.logging.debug('enabling and formatting the eckd'
+                           'device specified in config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+            self.dev = utils.fetch_dasd_dev(bus_id)
+            #utils.format_eckd(self.dev)
+            utils.partition_eckd(self.dev)
+            time.sleep(5)
+            utils.format_part_with_fs(self.dev+'1', 'ext4')
+            self.mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
+            utils.create_mount_point(self.mountpt)
+            self.server = 'localhost'
+            self.nfs_share = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_share')
+            self.nfs_mount_pt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
+            utils.nfs_setup(self.nfs_share, self.nfs_mount_pt)
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestFilesystems.setUpClass()')
 
     def test_f001_fs_mount_with_type_missing(self):
         """
@@ -40,9 +67,8 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_fs_mount_with_type_missing()')
-            blkdev = utils.readconfig(self, 'config', 'FILESYSTEM', 'blk_dev')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
-            fs_data = {'blk_dev' : blkdev, 'mount_point' : mountpt}
+            blkdev = self.dev + '1'
+            fs_data = {'blk_dev' : blkdev, 'mount_point' : self.mountpt}
             self.session.request_post(uri=self.uri_filesystems,body=fs_data,expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -57,9 +83,8 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_mount_with_invalid_type()')
-            blkdev = utils.readconfig(self, 'config', 'FILESYSTEM', 'blk_dev')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
-            fs_data = {'type' : 'invalid', 'blk_dev' : blkdev, 'mount_point' : mountpt}
+            blkdev = self.dev + '1'
+            fs_data = {'type' : 'invalid', 'blk_dev' : blkdev, 'mount_point' : self.mountpt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -74,8 +99,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_local_mount_without_blkdev()')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
-            fs_data = {'type' : 'local', 'mount_point' : mountpt}
+            fs_data = {'type' : 'local', 'mount_point' : self.mountpt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -90,7 +114,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_local_mount_without_mountpoint()')
-            blkdev = utils.readconfig(self, 'config', 'FILESYSTEM', 'blk_dev')
+            blkdev = self.dev + '1'
             fs_data = {'type' : 'local', 'blk_dev' : blkdev}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
@@ -106,9 +130,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_nfs_mount_without_server()')
-            share = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_share')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
-            fs_data = {'type' : 'nfs', 'share' : share, 'mount_point' : mountpt}
+            fs_data = {'type' : 'nfs', 'share' : self.nfs_share, 'mount_point' : self.nfs_mount_pt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -123,9 +145,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_nfs_mount_without_share()')
-            server = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_server')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
-            fs_data = {'type' : 'nfs', 'server' : server, 'mount_point' : mountpt}
+            fs_data = {'type' : 'nfs', 'server' : self.server, 'mount_point' : self.nfs_mount_pt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -140,9 +160,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_nfs_mount_without_mountpoint()')
-            server = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_server')
-            share = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_share')
-            fs_data = {'type' : 'nfs', 'server' : server, 'share' : share}
+            fs_data = {'type' : 'nfs', 'server' : self.server, 'share' : self.nfs_share}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -157,9 +175,8 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_local_mount()')
-            blkdev = utils.readconfig(self, 'config', 'FILESYSTEM', 'blk_dev')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
-            fs_data = {'type' : 'local', 'blk_dev' : blkdev, 'mount_point' : mountpt}
+            blkdev = self.dev + '1'
+            fs_data = {'type' : 'local', 'blk_dev' : blkdev, 'mount_point' : self.mountpt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[201])
         except Exception, err:
             self.logging.error(str(err))
@@ -174,10 +191,7 @@ class TestFilesystems(TestBase):
         """
         try:
             self.logging.info('--> TestFilesystems.test_nfs_mount()')
-            server = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_server')
-            share = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_share')
-            mountpt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
-            fs_data = {'type' : 'nfs', 'server' : server, 'share' : share, 'mount_point' : mountpt}
+            fs_data = {'type' : 'nfs', 'server' : self.server, 'share' : self.nfs_share, 'mount_point' : self.nfs_mount_pt}
             self.session.request_post(uri=self.uri_filesystems, body=fs_data, expected_status_values=[201])
         except Exception, err:
             self.logging.error(str(err))
@@ -217,9 +231,9 @@ class TestFilesystems(TestBase):
         Unmount filesystem
         :return:
         """
-        mnt_pt = utils.readconfig(self, 'config', 'FILESYSTEM', 'mount_point')
+        mnt_pt = self.mountpt
         mnt_pt = mnt_pt.replace("/", "%2F")
-        nfs_mnt = utils.readconfig(self, 'config', 'FILESYSTEM', 'nfs_mntpt')
+        nfs_mnt = self.nfs_mount_pt 
         nfs_mnt = nfs_mnt.replace("/", "%2F")
         try:
             self.logging.info('--> TestFilesystems.test_unmount_fs()')
@@ -231,4 +245,15 @@ class TestFilesystems(TestBase):
         finally:
             self.logging.info('<-- TestFilesystems.test_unmount_fs()')
 
-
+    @classmethod
+    def tearDownClass(self):
+        """
+        clean up
+        :return:
+        """
+        self.logging.info('--> TestFilesystems.tearDownClass()')
+        self.logging.debug('delete the partition created in setup class')
+        utils.delete_dir(self.mountpt)
+        utils.delete_dir(self.nfs_mount_pt)
+        utils.del_eckd_partition(self.dev)
+        self.logging.info('<-- TestFilesystems.tearDownClass()')

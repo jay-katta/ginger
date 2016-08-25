@@ -19,6 +19,7 @@
 
 
 import utils
+import time
 from tests.fvt.fvt_base import TestBase
 #from tests.fvt.restapilib import Validator
 
@@ -44,6 +45,23 @@ class TestDASDPartitions(TestBase):
                                   }
     uri_dasdpartitions = '/plugins/ginger/dasdpartitions'
 
+    @classmethod
+    def setUpClass(self):
+        super(TestDASDPartitions, self).setUpClass()
+        self.logging.info('--> TestDASDPartitions.setUpClass()')
+        self.logging.debug('enabling and formatting the eckd'
+                           'device specified in config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+            self.dev = utils.fetch_dasd_dev(bus_id)
+            utils.format_eckd(self.dev)
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestDASDPartitions.setUpClass()')
+
     def test_f001_create_dasdpart_with_devicename_missing(self):
         """
         Create DASD Partition without specifying the device name. Fails with 400
@@ -67,8 +85,7 @@ class TestDASDPartitions(TestBase):
 
         self.logging.info('--> TestDASDPartitions.test_create_dasdpart_with_partsize_missing()')
         try:
-            dev_name = utils.readconfig(self, 'config', 'DASDPartitions', 'dev_name')
-            part_data = {'dev_name': dev_name}
+            part_data = {'dev_name': self.dev.split('/')[-1]}
             self.session.request_post(uri=self.uri_dasdpartitions, body=part_data, expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -83,11 +100,11 @@ class TestDASDPartitions(TestBase):
         """
         self.logging.info('--> TestDASDPartitions.test_create_dasd_part()')
         try:
-            dev_name = utils.readconfig(self, 'config', 'DASDPartitions', 'dev_name')
-            size = utils.readconfig(self, 'config', 'DASDPartitions', 'size')
-            part_data = {'dev_name': dev_name, 'size': size}
+            size = int(utils.readconfig(self, 'config', 'DASDPartitions', 'size'))
+            part_data = {'dev_name': self.dev.split('/')[-1], 'size': size}
             self.session.request_post(uri=self.uri_dasdpartitions, body=part_data, expected_status_values=[201])
-            self.logging.debug('Creation of partition on DASD device Successful : %s' % dev_name)
+            time.sleep(5)
+            self.logging.debug('Creation of partition on DASD device Successful : %s' % self.dev.split('/')[-1])
         except Exception, err:
             self.logging.error(err)
             raise Exception(err)
@@ -121,7 +138,7 @@ class TestDASDPartitions(TestBase):
         self.logging.info('--> TestDASDPartitions.test_get_DASDPartition_details() ')
         try:
             self.logging.debug('Get DASD Partition information')
-            part_name = utils.readconfig(self, 'config', 'DASDPartitions', 'part_name')
+            part_name = self.dev.split('/')[-1] + '1'
             part_details = self.session.request_get_json(self.uri_dasdpartitions + '/' + part_name,[200])
             self.validator.validate_json(part_details, self.default_dasd_partitions_schema)
         except Exception, err:
@@ -137,7 +154,7 @@ class TestDASDPartitions(TestBase):
         """
         self.logging.info('--> TestDASDPartitions.test_delete_dasd_part()')
         try:
-            part_name = utils.readconfig(self, 'config', 'DASDPartitions', 'part_name')
+            part_name = self.dev.split('/')[-1] + '1'
             self.session.request_delete(uri=self.uri_dasdpartitions + '/' + part_name, expected_status_values=[204])
         except Exception, err:
             self.logging.error(str(err))

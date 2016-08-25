@@ -24,15 +24,15 @@ from tests.fvt.fvt_base import TestBase
 
 class TestPhysicalVols(TestBase):
     default_schema = {"type": "object",
-                      "properties": {"PESize": {"type": "string"},
-                                     "PVSize": {"type": "string"},
+                      "properties": {"PESize": {"type": "number"},
+                                     "PVSize": {"type": "number"},
                                      "PVName": {"type": "string"},
-                                     "FreePE": {"type": "string"},
+                                     "FreePE": {"type": "number"},
                                      "PVUUID": {"type": "string"},
                                      "Allocatable": {"type": "string"},
-                                     "TotalPE": {"type": "string"},
+                                     "TotalPE": {"type": "number"},
                                      "VGName": {"type": ["string", "null"]},
-                                     "AllocatedPE": {"type": "string"}
+                                     "AllocatedPE": {"type": "number"}
                                      }
                       }
     default_task_schema = {"type" : "object",
@@ -44,6 +44,25 @@ class TestPhysicalVols(TestBase):
                           }
     uri_pvs = '/plugins/ginger/pvs'
     uri_task = '/plugins/ginger/tasks'
+
+    @classmethod
+    def setUpClass(self):
+        super(TestPhysicalVols, self).setUpClass()
+        self.logging.info('--> TestPhysicalVols.setUpClass()')
+        self.logging.debug('enable and partition the eckd'
+                           'device specified in config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+            self.dev = utils.fetch_dasd_dev(bus_id)
+            #utils.format_eckd(self.dev)
+            utils.partition_eckd(self.dev)
+            time.sleep(5)
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestLogicalVols.setUpClass()')
 
     def test_f001_create_pv_with_pvname_missing(self):
         """
@@ -66,7 +85,7 @@ class TestPhysicalVols(TestBase):
         """
         try:
             self.logging.info('--> TestPhysicalVols.test_create_pv()')
-            pvname = utils.readconfig(self, 'config', 'PV', 'pvname')
+            pvname = self.dev+'1'
             pv_data = {'pv_name' : pvname}
             resp = self.session.request_post_json(uri=self.uri_pvs, body=pv_data, expected_status_values=[202])
             if resp is not None:
@@ -107,7 +126,7 @@ class TestPhysicalVols(TestBase):
     def test_S003_get_single_pv(self):
         try:
             self.logging.info('--> TestPhysicalVols.test_get_single_pv()')
-            pvname = utils.readconfig(self, 'config', 'PV', 'pvname')
+            pvname = self.dev+'1'
             pv = pvname.replace("/", "%2F")
             resp_pv = self.session.request_get_json(self.uri_pvs + '/' + pv,[200])
             self.validator.validate_json(resp_pv, self.default_schema)
@@ -124,7 +143,7 @@ class TestPhysicalVols(TestBase):
         """
         try:
             self.logging.info('--> TestPhysicalVols.test_delete_pv()')
-            pvname = utils.readconfig(self, 'config', 'PV', 'pvname')
+            pvname = self.dev+'1'
             pv = pvname.replace("/", "%2F")
             self.session.request_delete(uri=self.uri_pvs + '/' + pv, expected_status_values=[204])
         except Exception, err:
@@ -133,4 +152,13 @@ class TestPhysicalVols(TestBase):
         finally:
             self.logging.info('<-- TestPhysicalVols.test_delete_pv()')
 
-
+    @classmethod
+    def tearDownClass(self):
+        """
+        clean up
+        :return:
+        """
+        self.logging.info('--> TestPhysicalVols.tearDownClass()')
+        self.logging.debug('delete the partition created in setup class')
+        utils.del_eckd_partition(self.dev)
+        self.logging.info('<-- TestPhysicalVols.tearDownClass()')

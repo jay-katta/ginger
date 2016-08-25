@@ -26,7 +26,7 @@ class TestStgDevs(TestBase):
                                      "mpath_count": {"type": "number"},
                                      "type": {"type": "string"},
                                      "name": {"type": "string"},
-                                     "size": {"type": "string"},
+                                     "size": {"type": "number"},
                                      }
                       }
 

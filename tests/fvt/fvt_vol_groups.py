@@ -26,23 +26,23 @@ class TestVolGroups(TestBase):
     default_schema = {"type": "object",
                       "properties": {"vgName": {"type": "string"},
                                      "vgStatus": {"type": "string"},
-                                     "vgSize": {"type": "string"},
+                                     "vgSize": {"type": "number"},
                                      "maxLV": {"type": "string"},
-                                     "freePESize": {"type": "string"},
+                                     "freePESize": {"type": "number"},
                                      "format": {"type": "string"},
-                                     "curLV": {"type": "string"},
+                                     "curLV": {"type": "number"},
                                      "metadataAreas": {"type": "string"},
                                      "permission": {"type": "string"},
                                      "allocPE": {"type": "string"},
                                      "pvNames": {"type": "array"},
-                                     "peSize": {"type": "string"},
+                                     "peSize": {"type": "number"},
                                      "systemID": {"type": ["string", "null"]},
                                      "curPV": {"type": "string"},
                                      "freePE": {"type": "string"},
                                      "maxPV": {"type": "string"},
                                      "totalPE": {"type": "string"},
                                      "vgUUID": {"type": "string"},
-                                     "allocPESize": {"type": "string"},
+                                     "allocPESize": {"type": "number"},
                                      "metadataSequenceNo": {"type": "string"}
                                      }
                       }
@@ -57,13 +57,37 @@ class TestVolGroups(TestBase):
     uri_vgs = '/plugins/ginger/vgs'
     uri_task = '/plugins/ginger/tasks'
 
+    @classmethod
+    def setUpClass(self):
+        super(TestVolGroups, self).setUpClass()
+        self.logging.info('--> TestVolGroups.setUpClass()')
+        self.logging.debug('creating pv and vg on the eckd'
+                           'device specified in config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+            self.dev = utils.fetch_dasd_dev(bus_id)
+            #utils.format_eckd(self.dev)
+            utils.partition_eckd(self.dev)
+            time.sleep(5)
+            utils.partition_eckd(self.dev)
+            time.sleep(5)
+            utils.create_pv(self.dev+'1')
+            utils.create_pv(self.dev+'2')
+            self.vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestVolGroups.setUpClass()')
+
     def test_f001_create_vg_with_vgname_missing(self):
         """
         Create VG without specifying the VG name. Fails with 400
         """
         try:
             self.logging.info('--> TestVolGroups.test_create_vg_with_vgname_missing()')
-            vg_data = {'pv_paths': ['/dev/sdb1']}
+            vg_data = {'pv_paths': [self.dev+'1']}
             self.session.request_post(uri=self.uri_vgs,body=vg_data,expected_status_values=[400])
         except Exception, err:
             self.logging.error(str(err))
@@ -92,9 +116,8 @@ class TestVolGroups(TestBase):
         """
         try:
             self.logging.info('--> TestVolGroups.test_create_vg()')
-            vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
-            pvpaths = [utils.readconfig(self, 'config', 'VG', 'pvpaths')]
-            vg_data = {'vg_name' : vgname, 'pv_paths' : pvpaths}
+            pvpaths = [self.dev+'1']
+            vg_data = {'vg_name' : self.vgname, 'pv_paths' : pvpaths}
             resp = self.session.request_post_json(uri=self.uri_vgs, body=vg_data, expected_status_values=[202])
             if resp is not None:
                 self.validator.validate_json(resp, self.default_task_schema)
@@ -134,8 +157,7 @@ class TestVolGroups(TestBase):
     def test_S003_get_single_vg(self):
         try:
             self.logging.info('--> TestVolGroups.test_get_single_vg()')
-            vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
-            resp_vg = self.session.request_get_json(self.uri_vgs + '/' + vgname,[200])
+            resp_vg = self.session.request_get_json(self.uri_vgs + '/' + self.vgname,[200])
             self.validator.validate_json(resp_vg, self.default_schema)
         except Exception, err:
             self.logging.error(str(err))
@@ -150,10 +172,9 @@ class TestVolGroups(TestBase):
         """
         try:
             self.logging.info('--> TestVolGroups.test_extend_vg()')
-            vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
-            pvnames = [utils.readconfig(self, 'config', 'VG', 'add_PVs')]
+            pvnames = [self.dev+'2']
             pv_data = {'pv_paths' : pvnames}
-            self.session.request_post(uri=self.uri_vgs + '/' + vgname + '/extend', body=pv_data)
+            self.session.request_post(uri=self.uri_vgs + '/' + self.vgname + '/extend', body=pv_data)
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
@@ -167,10 +188,9 @@ class TestVolGroups(TestBase):
         """
         try:
             self.logging.info('--> TestVolGroups.test_reduce_vg()')
-            vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
-            pvnames = [utils.readconfig(self, 'config', 'VG', 'add_PVs')]
+            pvnames = [self.dev+'2']
             pv_data = {'pv_paths' : pvnames}
-            self.session.request_post(uri=self.uri_vgs + '/' + vgname + '/reduce', body=pv_data)
+            self.session.request_post(uri=self.uri_vgs + '/' + self.vgname + '/reduce', body=pv_data)
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
@@ -184,12 +204,24 @@ class TestVolGroups(TestBase):
         """
         try:
             self.logging.info('--> TestVolGroups.test_delete_vg()')
-            vgname = utils.readconfig(self, 'config', 'VG', 'vgname')
-            self.session.request_delete(uri=self.uri_vgs + '/' + vgname, expected_status_values=[204])
+            self.session.request_delete(uri=self.uri_vgs + '/' + self.vgname, expected_status_values=[204])
         except Exception, err:
             self.logging.error(str(err))
             raise Exception(str(err))
         finally:
             self.logging.info('<-- TestVolGroups.test_delete_vg()')
 
-
+    @classmethod
+    def tearDownClass(self):
+        """
+        clean up
+        :return:
+        """
+        self.logging.info('--> TestVolGroups.tearDownClass()')
+        self.logging.debug('delete the pv and vg created in setup class')
+        utils.delete_pv(self.dev+'1')
+        utils.delete_pv(self.dev+'2')
+        time.sleep(5)
+        utils.del_eckd_partition(self.dev)
+        utils.del_eckd_partition(self.dev)
+        self.logging.info('<-- TestVolGroups.tearDownClass()')

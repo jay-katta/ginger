@@ -54,6 +54,21 @@ class TestDASDdevs(TestBase):
     uri_dasddevs = '/plugins/ginger/dasddevs'
     task_uri = '/plugins/ginger/tasks'
 
+    @classmethod
+    def setUpClass(self):
+        super(TestDASDdevs, self).setUpClass()
+        self.logging.info('--> TestDASDdevs.setUpClass()')
+        self.logging.debug('enabling the eckd specified'
+                           'in the config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestDASDdevs.setUpClass()')
+
     def test_S001_format_dasd(self):
         """
         Format DASD device by passing the bus_id and block size specified in the config file

@@ -46,11 +46,34 @@ class TestLogicalVols(TestBase):
                                          "message": {"type": "string"},
                                          "id": {"type": "string"},
                                          "target_uri": {"type": "string"},
-                                         }
+                                         
+                                        }
                           }
 
     uri_lvs = '/plugins/ginger/lvs'
     uri_task = '/plugins/ginger/tasks'
+
+    @classmethod
+    def setUpClass(self):
+        super(TestLogicalVols, self).setUpClass()
+        self.logging.info('--> TestLogicalVols.setUpClass()')
+        self.logging.debug('creating pv and vg on the eckd'
+                           'device specified in config file')
+        bus_id = utils.readconfig(self, 'config', 'DASDdevs', 'bus_id')
+        try:
+            utils.enable_eckd(bus_id)
+            self.dev = utils.fetch_dasd_dev(bus_id)
+            #utils.format_eckd(self.dev)
+            utils.partition_eckd(self.dev)
+            time.sleep(5)
+            utils.create_pv(self.dev+'1')
+            self.vgname = utils.readconfig(self, 'config', 'LV', 'vgname')
+            utils.create_vg(self.vgname, self.dev+'1')
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestLogicalVols.setUpClass()')
 
     def test_f001_create_lv_with_vgname_missing(self):
         """
@@ -87,9 +110,8 @@ class TestLogicalVols(TestBase):
         """
         try:
             self.logging.info('--> TestLogicalVols.test_create_lv()')
-            vgname = utils.readconfig(self, 'config', 'LV', 'vgname')
             size = utils.readconfig(self, 'config', 'LV', 'size')
-            lv_data = {'vg_name' : vgname, 'size' : size}
+            lv_data = {'vg_name' : self.vgname, 'size' : size}
             resp = self.session.request_post_json(uri=self.uri_lvs, body=lv_data, expected_status_values=[202])
             if resp is not None:
                 self.validator.validate_json(resp, self.default_task_schema)
@@ -102,7 +124,6 @@ class TestLogicalVols(TestBase):
                     task_status = task_resp["status"]
                     continue
                 if task_status == "finished":
-                    self.logging.debug('Create LV is successful')
                 else:
                     self.assertFalse(True)
         except Exception, err:
@@ -129,9 +150,8 @@ class TestLogicalVols(TestBase):
     def test_S003_get_single_lv(self):
         try:
             self.logging.info('--> TestLogicalVols.test_get_single_lv()')
-            vgname = utils.readconfig(self, 'config', 'LV', 'vgname')
             lvname = utils.readconfig(self, 'config', 'LV', 'lvname')
-            lv = '%2Fdev' + '%2F' + vgname + '%2F' + lvname
+            lv = '%2Fdev' + '%2F' + self.vgname + '%2F' + lvname
             resp_lv = self.session.request_get_json(self.uri_lvs + '/' + lv,[200])
             self.validator.validate_json(resp_lv, self.default_schema)
         except Exception, err:
@@ -147,9 +167,8 @@ class TestLogicalVols(TestBase):
         """
         try:
             self.logging.info('--> TestLogicalVols.test_delete_lv()')
-            vgname = utils.readconfig(self, 'config', 'LV', 'vgname')
             lvname = utils.readconfig(self, 'config', 'LV', 'lvname')
-            lv = '%2Fdev' + '%2F' + vgname + '%2F' + lvname
+            lv = '%2Fdev' + '%2F' + self.vgname + '%2F' + lvname
             self.session.request_delete(uri=self.uri_lvs + '/' + lv, expected_status_values=[204])
         except Exception, err:
             self.logging.error(str(err))
@@ -157,4 +176,16 @@ class TestLogicalVols(TestBase):
         finally:
             self.logging.info('<-- TestLogicalVols.test_delete_lv()')
 
-
+    @classmethod
+    def tearDownClass(self):
+        """
+        clean up
+        :return:
+        """
+        self.logging.info('--> TestLogicalVols.tearDownClass()')
+        self.logging.debug('delete the pv and vg created in setup class')
+        utils.delete_vg(self.vgname)
+        utils.delete_pv(self.dev+'1')
+        time.sleep(5)
+        utils.del_eckd_partition(self.dev)
+        self.logging.info('<-- TestLogicalVols.tearDownClass()')

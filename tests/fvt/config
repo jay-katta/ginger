@@ -1,42 +1,37 @@
-[PV]
-pvname: /dev/mapper/36005076802810d5048000000000029b4
-
 [PARTITIONS]
+hba_id: 0.0.3080
+remote_wwpn: 0x5005076802160417
+lun_id: 0x0002000000000000
+lun_id_2: 0x0004000000000000
 devname: /dev/sda
-part_size: 20M
+part_size: 10
 part_name: sda1
-format_part: 36005076802810d5048000000000029b2
+format_part: 36005076802810d5048000000000029af 
 fstype: ext4
 part_type_code: 82
 
 [DASDdevs]
-bus_id: 0.0.0400
+bus_id: 0.0.518e
 blk_size: 4096
 
 [DASDPartitions]
-dev_name: dasds
-part_name: dasds1
-size: 40
+size: 10
 
 [FILESYSTEM]
-blk_dev: /dev/dm-1
-nfs_server: localhost
 nfs_share: /var/ftp/nfs
-mount_point: /testfolder
+mount_point: /testmount
 nfs_mntpt: /nfsmount
 
 [LV]
 vgname: testvg1
-size: 20M
+size: 5M
 lvname: lvol0
 
 [Swaps]
-file_loc: /dev/dasdd1
-type: device
+file_loc: /newswapfile
+type: file
 size: 10M
 
 [VG]
 vgname: testvg
-pvpaths: /dev/dasdb2
-add_PVs: /dev/dasdb3
  

@@ -33,9 +33,9 @@ class TestSwaps(TestBase):
 
     default_swaps_schema = {"type": "object",
                                   "properties": {"priority": {"type": "string"},
-                                                 "size": {"type": "string"},
+                                                 "size": {"type": "number"},
                                                  "type": {"type": "string"},
-                                                 "used": {"type": "string"},
+                                                 "used": {"type": "number"},
                                                  "filename": {"type": "string"}
                                                  }
                                   }

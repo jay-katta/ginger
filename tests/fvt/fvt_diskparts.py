@@ -43,6 +43,26 @@ class TestPartitions(TestBase):
     uri_partitions = '/plugins/ginger/partitions'
     uri_task = '/plugins/ginger/tasks'
 
+    @classmethod
+    def setUpClass(self):
+        super(TestPartitions, self).setUpClass()
+        self.logging.info('--> TestPartitions.setUpClass()')
+        self.logging.debug('enable the fcp adapter and lun'
+                           'specified in config file')
+        self.hba_id = utils.readconfig(self, 'config', 'PARTITIONS', 'hba_id')
+        self.remote_wwpn = utils.readconfig(self, 'config', 'PARTITIONS', 'remote_wwpn')
+        self.lun_id = utils.readconfig(self, 'config', 'PARTITIONS', 'lun_id')
+        self.lun_id_2 = utils.readconfig(self, 'config', 'PARTITIONS', 'lun_id_2')
+        try:
+            utils.enable_eckd(self.hba_id)
+            utils.add_lun(self.hba_id, self.remote_wwpn, self.lun_id)
+            utils.add_lun(self.hba_id, self.remote_wwpn, self.lun_id_2)
+        except Exception, err:
+            self.logging.error(str(err))
+            raise Exception(str(err))
+        finally:
+            self.logging.info('<-- TestLogicalVols.setUpClass()')
+
     def test_f001_create_part_with_devname_missing(self):
         """
         Create disk partition with device name missing. Fails with 400.
@@ -50,7 +70,7 @@ class TestPartitions(TestBase):
         """
         try:
             self.logging.info('--> TestPartitions.test_create_part_with_devname_missing()')
-            part_size = utils.readconfig(self, 'config', 'PARTITIONS', 'part_size')
+            part_size = int(utils.readconfig(self, 'config', 'PARTITIONS', 'part_size'))
             part_data = {'partsize': part_size}
             self.session.request_post(uri=self.uri_partitions,body=part_data,expected_status_values=[400])
         except Exception, err:
@@ -83,7 +103,7 @@ class TestPartitions(TestBase):
         try:
             self.logging.info('--> TestPartitions.test_create_part()')
             devname = utils.readconfig(self, 'config', 'PARTITIONS', 'devname')
-            part_size = utils.readconfig(self, 'config', 'PARTITIONS', 'part_size')
+            part_size = int(utils.readconfig(self, 'config', 'PARTITIONS', 'part_size'))
             part_data = {'devname' : devname, 'partsize': part_size}
             self.session.request_post(uri=self.uri_partitions, body=part_data, expected_status_values=[201])
         except Exception, err:
@@ -183,3 +203,14 @@ class TestPartitions(TestBase):
         finally:
             self.logging.info('<-- TestPartitions.test_delete_part()')
 
+    @classmethod
+    def tearDownClass(self):
+        """
+        clean up
+        :return:
+        """
+        self.logging.info('--> TestPartitions.tearDownClass()')
+        self.logging.debug('remove the lun added in setup class')
+        utils.remove_lun(self.hba_id, self.remote_wwpn, self.lun_id)
+        utils.remove_lun(self.hba_id, self.remote_wwpn, self.lun_id_2)
+        self.logging.info('<-- TestPartitions.tearDownClass()')

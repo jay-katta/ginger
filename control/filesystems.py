@@ -22,11 +22,11 @@ from wok.control.utils import UrlSubNode
 
 
 FILESYSTEMS_REQUESTS = {
-    'POST': {'default': "Mount %(type)s filesystem at '%(mount_point)s'"},
+    'POST': {'default': "GINFS0001L"},
 }
 
 FILESYSTEM_REQUESTS = {
-    'DELETE': {'default': "Unmount filesystem '%(ident)s'"},
+    'DELETE': {'default': "GINFS0002L"},
 }
 
 
@@ -40,7 +40,16 @@ class FileSystems(Collection):
         self.role_key = 'host'
         self.admin_methods = ['GET', 'POST', 'DELETE']
         self.resource = FileSystem
+
+        # set user log messages and make sure all parameters are present
         self.log_map = FILESYSTEMS_REQUESTS
+        self.log_args.update({'type': '', 'mount_point': ''})
+
+    def _get_resources(self, flag_filter):
+        res_list = super(FileSystems, self)._get_resources(flag_filter)
+        res_list = filter(lambda x: 'tmpfs' not in x.info['type'],
+                          res_list)
+        return res_list
 
 
 class FileSystem(Resource):
